@@ -55,7 +55,7 @@ void draw() {
   // Translate the origin point to the center of the screen
   //translate(SIDE/2, SIDE/2);
   
-  //colorDot(0, 0, h, 100, 100, 200);// + 200 * sin(t));
+  //colorDot(0, 0, y, 100, 100, 200);// + 200 * sin(t));
   rotate(PI/2);
   image(pine, 0, -y1, SIDE, imgHeight);
   image(pine, 0, -y2, SIDE, imgHeight);

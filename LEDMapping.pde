@@ -38,9 +38,14 @@ public class LEDMapping {
   IcosaVertex[] ring1Vs = new IcosaVertex[NUM_POINTS];
   IcosaVertex[] ring2Vs = new IcosaVertex[NUM_POINTS];
   
+  public List<IcosaVertex> verticies = new ArrayList<IcosaVertex>();
+  
   OPC opc;
 
   LEDMapping(PApplet parent) {
+    parent.registerDraw(this);
+    
+    
     // Initialize the rings
     float r2_theta = 0;
     float r1_theta = POINT_OFFSET_RAD / 2;
@@ -48,18 +53,22 @@ public class LEDMapping {
       ring1Vs[i] = new IcosaVertex( polar2cart(RING1_R, r1_theta) );
       ring2Vs[i] = new IcosaVertex( polar2cart(RING2_R, r2_theta) );
       
+      verticies.add(ring1Vs[i]);
+      verticies.add(ring2Vs[i]);
+      
       r1_theta += POINT_OFFSET_RAD;
       r2_theta += POINT_OFFSET_RAD;
     }
     
-    parent.registerDraw(this);
+    IcosaVertex center = new IcosaVertex(new float[]{ 0.0, 0.0 });
+    verticies.add(center);
     
     
     // Initialize pixel mappings
     opc = new OPC(parent, "127.0.0.1", 7890);
     
     
-    // Fadecandy port 0: Segments lining equator triangles
+    // Fadecandy port 1: Segments lining equator triangles
     // -----------
     int ledI = 64;
     
@@ -78,10 +87,9 @@ public class LEDMapping {
     ledI = addLEDSegment(ledI, ring2Vs[4], ring1Vs[4]);
     ledI = addLEDSegment(ledI, ring1Vs[4], ring2Vs[0]);
     
-    // Fadecandy port 1: Segments lining top piece
+    // Fadecandy port 0: Segments lining top piece
     // -----------
     ledI = 0;
-    IcosaVertex center = new IcosaVertex(new float[]{ 0.0, 0.0 });
     
     ledI = addLEDSegment(ledI, ring1Vs[2], center);
     ledI = addLEDSegment(ledI, center, ring1Vs[3]);
