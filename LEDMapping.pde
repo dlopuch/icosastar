@@ -41,10 +41,21 @@ public class LEDMapping {
   public List<IcosaVertex> verticies = new ArrayList<IcosaVertex>();
   
   OPC opc;
-
-  LEDMapping(PApplet parent) {
-    parent.registerDraw(this);
+  
+  private class QueuedLed {
+    int i;
+    int x;
+    int y;
     
+    QueuedLed(int i, int x, int y) {
+      this.i = i;
+      this.x = x;
+      this.y = y;
+    }
+  }
+  List<QueuedLed> queuedLeds = new ArrayList();
+
+  LEDMapping() {
     
     // Initialize the rings
     float r2_theta = 0;
@@ -62,10 +73,6 @@ public class LEDMapping {
     
     IcosaVertex center = new IcosaVertex(new float[]{ 0.0, 0.0 });
     verticies.add(center);
-    
-    
-    // Initialize pixel mappings
-    opc = new OPC(parent, "127.0.0.1", 7890);
     
     
     // Fadecandy port 1: Segments lining equator triangles
@@ -98,6 +105,18 @@ public class LEDMapping {
     ledI = addLEDSegment(ledI, ring1Vs[1], center);
   }
   
+  // Call this after all other classes have registerDraw()'d
+  void registerDraw(PApplet parent) {
+    parent.registerDraw(this);
+    
+    // Initialize pixel mappings
+    opc = new OPC(parent, "127.0.0.1", 7890);
+    
+    for (QueuedLed led : this.queuedLeds) {
+      opc.led(led.i, led.x, led.y);
+    }
+  }
+  
   private int addLEDSegment(int startLedI, IcosaVertex start, IcosaVertex end) {
     int numSpacings = PX_PER_SEGMENT + 1;
     
@@ -111,7 +130,8 @@ public class LEDMapping {
     
     for (int i=startLedI; i < startLedI + PX_PER_SEGMENT; i++) {
       println("adding led", i, "at", x, y);
-      opc.led(i, (int)x, (int)y);
+      queuedLeds.add(new QueuedLed(i, (int)x, (int)y));
+      //opc.led(i, (int)x, (int)y);
       x += deltaX;
       y += deltaY;
     }
@@ -164,9 +184,6 @@ public class LEDMapping {
   }
   
   void draw() {
-    // Translate the origin point to the center of the screen
-    translate(SIDE/2, SIDE/2);
-    
     this.drawPoints();
   }
 }
