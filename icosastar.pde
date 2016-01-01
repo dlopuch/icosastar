@@ -30,10 +30,14 @@ void setup() {
   dot = loadImage("dot.png");
   pine = loadImage("pine1.jpg");
   
-  ledMapping = new LEDMapping(); 
-  vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
+  ledMapping = new LEDMapping();
   
-  ledMapping.registerDraw(this); // keep last
+  //vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
+  
+  new RainbowSpiral(this);
+  
+  // Keep Last!
+  ledMapping.registerDraw(this);
 }
 
 void mousePressed() {
