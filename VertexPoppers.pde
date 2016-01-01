@@ -65,7 +65,7 @@ public class VertexPoppers {
       
       
       colorMode(HSB, 100);
-      fill(this.h, 100, 120 * (1 - lifetimePct));
+      fill(this.h, 0, 120 * (1 - lifetimePct));
       ellipse(
         this.vertex.x, 
         this.vertex.y,
