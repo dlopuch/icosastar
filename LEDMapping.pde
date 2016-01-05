@@ -35,8 +35,9 @@ public class LEDMapping {
   
   int PX_PER_SEGMENT = 6;
   
-  IcosaVertex[] ring1Vs = new IcosaVertex[NUM_POINTS];
-  IcosaVertex[] ring2Vs = new IcosaVertex[NUM_POINTS];
+  public IcosaVertex[] ring1Vs = new IcosaVertex[NUM_POINTS];
+  public IcosaVertex[] ring2Vs = new IcosaVertex[NUM_POINTS];
+  public IcosaVertex center;
   
   public List<IcosaVertex> verticies = new ArrayList<IcosaVertex>();
   
@@ -71,8 +72,8 @@ public class LEDMapping {
       r2_theta += POINT_OFFSET_RAD;
     }
     
-    IcosaVertex center = new IcosaVertex(new float[]{ 0.0, 0.0 });
-    verticies.add(center);
+    this.center = new IcosaVertex(new float[]{ 0.0, 0.0 });
+    verticies.add(this.center);
     
     
     // Fadecandy port 1: Segments lining equator triangles

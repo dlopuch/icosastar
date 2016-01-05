@@ -7,22 +7,28 @@ public class IcosaFFT {
   
   private Minim minim;
   private AudioInput in;
+  public BeatDetect beat;
   private FFT fft;
   private float[] fftFilter;
   
   IcosaFFT() {
-    minim = new Minim(this); 
+    this.minim = new Minim(this); 
 
     // Small buffer size!
-    in = minim.getLineIn();
+    this.in = minim.getLineIn();
   
-    fft = new FFT(in.bufferSize(), in.sampleRate());
-    fftFilter = new float[fft.specSize()];
+    this.fft = new FFT(in.bufferSize(), in.sampleRate());
+    this.fftFilter = new float[fft.specSize()];
+    
+    this.beat = new BeatDetect(this.in.bufferSize(), 44100);
+    this.beat.setSensitivity(200);
   }
   
   // Move the FFT forward one cycle
   void forward() {
     this.fft.forward(in.mix);
+    this.beat.detect(in.mix);
+    
     for (int i = 0; i < this.fftFilter.length; i++) {
       this.fftFilter[i] = max(this.fftFilter[i] * DECAY, log(1 + this.fft.getBand(i)));
     }

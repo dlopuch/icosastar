@@ -19,6 +19,10 @@ float opacity = 25;
 float minSize = 0.1;
 float sizeScale = 0.3;
 
+float colorOffset = 0;
+float colorOffsetRadiansPerBucket = radians(1.5);
+
+
 
 // This is a function which knows how to draw a copy of the "dot" image with a color tint.
 void colorDot(float x, float y, float hue, float saturation, float brightness, float size, float transparency)
@@ -48,6 +52,11 @@ void setup() {
   // --------
   //new RainbowSpiral(this);
   //vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
+  new VertexFFT(this, icosaFft.beat, 
+    Arrays.asList(ledMapping.ring2Vs), // bottom ring
+    Arrays.asList(ledMapping.ring1Vs), // middle ring
+    Arrays.asList(ledMapping.center)
+  );
   // ---------
   
   // Keep Last!
