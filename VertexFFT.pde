@@ -63,7 +63,7 @@ public class VertexFFT {
     for (IcosaVertex v : this.snares) {
       colorDot(
         v.x, v.y, 
-        0, 0, 100, 
+        millis() / 10 % 100, 100, 100, 
         this.rSnare, 100
       );
     }
