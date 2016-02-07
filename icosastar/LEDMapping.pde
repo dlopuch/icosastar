@@ -104,6 +104,29 @@ public class LEDMapping {
     ledI = addLEDSegment(ledI, ring1Vs[3], ring1Vs[2]);
     ledI = addLEDSegment(ledI, ring1Vs[2], ring1Vs[1]);
     ledI = addLEDSegment(ledI, ring1Vs[1], center);
+    ledI = addLEDSegment(ledI, center, ring1Vs[0]);
+    // zero is furthest away from me
+    
+    ledI = addLEDSegment(ledI, ring1Vs[0], ring1Vs[4]);
+    ledI = addLEDSegment(ledI, ring1Vs[4], center);
+    ledI = addLEDSegment(ledI, ring1Vs[3], ring1Vs[4]);
+    ledI = addLEDSegment(ledI, ring1Vs[0], ring1Vs[1]);
+    //04
+    //43
+    //32
+    //21
+    //10
+    
+    //2
+    //3
+    //1
+    //0
+    //4
+    //3
+    
+    
+
+    
   }
   
   // Call this after all other classes have registerDraw()'d

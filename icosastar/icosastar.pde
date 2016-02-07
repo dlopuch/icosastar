@@ -3,6 +3,7 @@ ControlP5 cp5;
 
 LEDMapping ledMapping;
 VertexPoppers vertexPoppers;
+RainbowSpiral rainbowSpiral;
 IcosaFFT icosaFft = new IcosaFFT();
 
 int SIDE = 600;
@@ -52,6 +53,7 @@ void setup() {
   // --------
   //new RainbowSpiral(this);
   //vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
+  //rainbowSpiral = new RainbowSpiral(this);
   new VertexFFT(this, icosaFft.beat, 
     Arrays.asList(ledMapping.ring2Vs), // bottom ring
     Arrays.asList(ledMapping.ring1Vs), // middle ring
