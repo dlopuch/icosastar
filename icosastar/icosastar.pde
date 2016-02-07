@@ -7,6 +7,9 @@ RainbowSpiral rainbowSpiral;
 IcosaFFT icosaFft = new IcosaFFT();
 FFTSpiral fftSpiral;
 
+FFTSpiral broncosSpiral;
+FFTSpiral panthersSpiral;
+
 int SIDE = 600;
 
 PImage dot;
@@ -52,7 +55,15 @@ void setup() {
     Arrays.asList(ledMapping.ring1Vs), // middle ring
     Arrays.asList(ledMapping.center)
   );
-  fftSpiral = new FFTSpiral(this, dot, icosaFft, fftColors);
+
+  //fftSpiral = new FFTSpiral(this, dot, icosaFft, fftColors);
+  
+  color[] broncos = {#002244, #FB4F14, #002244, #002244, #FB4F14, #002244, #002244, #FB4F14, #000000 };
+  color[] panthers = {#0085CA, #BFC0BF, #0085CA, #000000, #BFC0BF, #0085CA, #000000 };
+  broncosSpiral = new FFTSpiral(this, dot, icosaFft, broncos);
+  panthersSpiral = new FFTSpiral(this, dot, icosaFft, panthers);
+  broncosSpiral.disabled = true;
+  
   // ---------
   
   // Keep Last!
@@ -61,6 +72,8 @@ void setup() {
 
 void mousePressed() {
   //h = (h + 10) % 100;
+  broncosSpiral.disabled = !broncosSpiral.disabled;
+  panthersSpiral.disabled = !panthersSpiral.disabled;
 }
 
 float imgHeight = SIDE;
@@ -78,6 +91,11 @@ void draw() {
   // Mouse pointer
   float hue = (millis() * -speed) % (imgHeight*2);
   colorDot(mouseX, mouseY, hue, 100, 100, 200, 255);// + 200 * sin(t));
+  
+  
+  float spin = map(mouseY, 0, height, 0.001, 0.010);
+  panthersSpiral.spin = spin;
+  broncosSpiral.spin = spin;
   
   
   // Pine tree background

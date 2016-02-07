@@ -60,6 +60,7 @@ public class VertexFFT {
       this.rSnare = MAX_SIZE_SNARE_PX; // min(rKick * GROW_MULT, MAX_SIZE_KICK_PX);
     }
     
+    /*
     for (IcosaVertex v : this.snares) {
       colorDot(
         v.x, v.y, 
@@ -67,6 +68,7 @@ public class VertexFFT {
         this.rSnare, 100
       );
     }
+    */
     
     // Hihat drum
     // --------------
