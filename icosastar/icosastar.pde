@@ -5,6 +5,7 @@ LEDMapping ledMapping;
 VertexPoppers vertexPoppers;
 RainbowSpiral rainbowSpiral;
 IcosaFFT icosaFft = new IcosaFFT();
+FFTSpiral fftSpiral;
 
 int SIDE = 600;
 
@@ -12,13 +13,6 @@ PImage dot;
 PImage pine;
 PImage fftColors;
 
-// TODO: FFT vars, refactor into separate
-float spin = 0.001;
-float radiansPerBucket = radians(1.5);
-float decay = 0.97;
-float opacity = 25;
-float minSize = 0.1;
-float sizeScale = 0.3;
 
 float colorOffset = 0;
 float colorOffsetRadiansPerBucket = radians(1.5);
@@ -51,7 +45,6 @@ void setup() {
   
   // Enable some implementations:
   // --------
-  //new RainbowSpiral(this);
   //vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
   //rainbowSpiral = new RainbowSpiral(this);
   new VertexFFT(this, icosaFft.beat, 
@@ -59,6 +52,7 @@ void setup() {
     Arrays.asList(ledMapping.ring1Vs), // middle ring
     Arrays.asList(ledMapping.center)
   );
+  fftSpiral = new FFTSpiral(this, dot, icosaFft, fftColors);
   // ---------
   
   // Keep Last!
@@ -99,34 +93,4 @@ void draw() {
   // (for other drawers)
   translate(SIDE/2, SIDE/2);
   
-  
-  drawFft();
-}
-
-void drawFft() {
-  float[] fftFilter = icosaFft.getFilter();
-  colorMode(RGB);
-  
-  for (int i = 0; i < fftFilter.length; i += 3) {
-    // tall palettes (sample height)   
-    /*color rgb = fftColors.get(
-      fftColors.width/2,
-      int(map(i, 0, fftFilter.length-1, 0, fftColors.height-1))
-    );// */
-    
-    // wide palettes (sample width)
-    color rgb = fftColors.get(
-      int(map(i, 0, fftFilter.length-1, 0, fftColors.width-1)), 
-      fftColors.height/2
-    ); 
-    
-    tint(rgb, fftFilter[i] * opacity);
-    blendMode(ADD);
- 
-    float size = height * (minSize + sizeScale * fftFilter[i]);
-    PVector center = new PVector(width * (fftFilter[i] * 0.2), 0);
-    center.rotate((millis() * spin)  +  (i * radiansPerBucket));
- 
-    image(dot, center.x - size/2, center.y - size/2, size, size);
-  }
 }
