@@ -11,6 +11,9 @@ public class FFTSpiral {
   // Default parameters, change per instance if need be
   // ------------
   
+  // True: forget the fft levels, just make a light-everything spiral
+  boolean goCrazy = false;
+  
   // Higher to make a frequency bucket scale further out
   float freqPowerScaler = 0.2;
   
@@ -49,6 +52,16 @@ public class FFTSpiral {
     
     float[] fftFilter = this.icosaFft.getFilter();
     colorMode(RGB);
+    
+    // goCrazy: forget the fft levels, just make a light-everything spiral
+    if (this.goCrazy) {
+      int len = fftFilter.length;
+      fftFilter = new float[ len ];
+      for (int i=0; i<len; i++) {
+        fftFilter[i] = ((float)i/(float)(len - 1)) * 1.8;
+      }
+      
+    }
     
     for (int i = 0; i < fftFilter.length; i += 3) {
       color rgb;

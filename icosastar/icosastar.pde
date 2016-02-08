@@ -1,6 +1,8 @@
 import controlP5.*;
 ControlP5 cp5;
 
+import http.requests.*;
+
 LEDMapping ledMapping;
 VertexPoppers vertexPoppers;
 RainbowSpiral rainbowSpiral;
@@ -9,6 +11,7 @@ FFTSpiral fftSpiral;
 
 FFTSpiral broncosSpiral;
 FFTSpiral panthersSpiral;
+FFTSpiral penaltySpiral;
 
 int SIDE = 600;
 
@@ -58,11 +61,21 @@ void setup() {
 
   //fftSpiral = new FFTSpiral(this, dot, icosaFft, fftColors);
   
-  color[] broncos = {#002244, #FB4F14, #002244, #002244, #FB4F14, #002244, #002244, #FB4F14, #000000 };
-  color[] panthers = {#0085CA, #BFC0BF, #0085CA, #000000, #BFC0BF, #0085CA, #000000 };
+  color[] broncos = {#002BAB, #FB6B14, #002BAB, #002BAB, #FB6B14, #FB6B14, #002BAB, #002BAB, #000000 };
+  color[] panthers = {#00A3CA, #BFC0BF, #00A3CA, #000000, #BFC0BF, #00A3CA, #000000 };
+  color[] penalties = {#FF0000, #FFB300, #FF0000, #FF6600, #000000};
   broncosSpiral = new FFTSpiral(this, dot, icosaFft, broncos);
   panthersSpiral = new FFTSpiral(this, dot, icosaFft, panthers);
+  penaltySpiral = new FFTSpiral(this, dot, icosaFft, penalties); 
+  
+  panthersSpiral.disabled = true;
   broncosSpiral.disabled = true;
+  penaltySpiral.disabled = false;
+  
+  
+  
+  GetRequest get = new GetRequest("http://localhost:8083/scrape_game");
+  get.send();
   
   // ---------
   
@@ -70,10 +83,86 @@ void setup() {
   ledMapping.registerDraw(this);
 }
 
+void enableBroncos() {
+  panthersSpiral.disabled = true;
+  broncosSpiral.disabled  = false;
+  penaltySpiral.disabled  = true;
+}
+
+void enablePanthers() {
+  panthersSpiral.disabled = false;
+  broncosSpiral.disabled  = true;
+  penaltySpiral.disabled  = true;
+}
+
+void enablePenalty() {
+  panthersSpiral.disabled = true;
+  broncosSpiral.disabled  = true;
+  penaltySpiral.disabled  = false;
+}
+
+
 void mousePressed() {
   //h = (h + 10) % 100;
-  broncosSpiral.disabled = !broncosSpiral.disabled;
-  panthersSpiral.disabled = !panthersSpiral.disabled;
+
+  if (!panthersSpiral.disabled) {
+    enableBroncos();
+    
+  } else if (!broncosSpiral.disabled) {
+    enablePenalty();
+    
+  } else {
+    enablePanthers();
+  }
+  
+  
+  //refreshFromServer();
+}
+
+void refreshFromServer() {
+  println("-------");
+  println(millis(), "refreshing game state");
+  
+  GetRequest get = new GetRequest("http://localhost:8083/active_game");
+  get.send();
+  
+  JSONObject json = parseJSONObject(get.getContent());
+  
+  boolean isDenver;
+  
+  // First, see if last drive is relevant
+  boolean isLastDriveRelevant = json.getInt("timeSinceLastDriveMs") < 20000;
+  if (isLastDriveRelevant) {
+    println("lastDriveRelevant!");
+    if ("bad".equals(json.getString("lastDriveReaction"))) {
+      println("and its bad!");
+      enablePenalty();
+      penaltySpiral.spin = 0.010;
+      penaltySpiral.goCrazy = true;
+      return;
+    }
+    
+    if ("good".equals(json.getString("lastDriveReaction"))) {
+      isDenver = "DEN".equals( json.getJSONObject("lastDrive").getString("posteam") );
+      println("AND ITS GREAT! PARTY FOR", isDenver ? "DENVER" : "not denver");
+      
+      FFTSpiral posteam = isDenver ? broncosSpiral : panthersSpiral;
+    
+      // party mode!
+      if (isDenver) { enableBroncos(); } else { enablePanthers(); };
+      posteam.goCrazy = true;
+      posteam.spin = 0.010;
+      return;
+    }
+    
+    // meh, just drop down into normal root-for pos team
+  }
+  
+  isDenver = "DEN".equals( json.getString("posteam") );
+  FFTSpiral posteam = isDenver ? broncosSpiral : panthersSpiral;
+  if (isDenver) { enableBroncos(); } else { enablePanthers(); };
+  posteam.goCrazy = false;
+  posteam.spin = 0.001;
 }
 
 float imgHeight = SIDE;
@@ -82,9 +171,15 @@ float y2 = 0;
 
 float speed = 0.04;
 
+int lastRefresh = millis();
 
 void draw() {
   background(0);
+  
+  if (millis() - lastRefresh > 1000) {
+    refreshFromServer();
+    lastRefresh = millis();
+  }
   
   icosaFft.forward();
   
@@ -93,9 +188,10 @@ void draw() {
   colorDot(mouseX, mouseY, hue, 100, 100, 200, 255);// + 200 * sin(t));
   
   
-  float spin = map(mouseY, 0, height, 0.001, 0.010);
-  panthersSpiral.spin = spin;
-  broncosSpiral.spin = spin;
+  //float spin = map(mouseY, 0, height, 0.001, 0.010);
+  //panthersSpiral.spin = spin;
+  //broncosSpiral.spin = spin;
+  //penaltySpiral.spin = spin;
   
   
   // Pine tree background
