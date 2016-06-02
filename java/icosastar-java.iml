@@ -12,5 +12,6 @@
     <orderEntry type="library" name="gluegen-rt" level="project" />
     <orderEntry type="library" name="jogl-all" level="project" />
     <orderEntry type="library" name="core" level="project" />
+    <orderEntry type="library" name="minim" level="project" />
   </component>
 </module>
