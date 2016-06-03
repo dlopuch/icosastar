@@ -2,6 +2,7 @@ package com.github.dlopuch.icosastar;
 
 import static processing.core.PApplet.ADD;
 import static processing.core.PApplet.RGB;
+import static processing.core.PApplet.map;
 import static processing.core.PApplet.radians;
 
 import processing.core.PApplet;
@@ -45,7 +46,7 @@ public class FFTSpiral {
 
       // wide palettes (sample width)
       int rgb = this.fftColors.get(
-          (int)(p.map(i, 0, fftFilter.length-1, 0, this.fftColors.width-1)),
+          (int)(map(i, 0, fftFilter.length-1, 0, this.fftColors.width-1)),
           fftColors.height/2
       );
 

@@ -1,5 +1,8 @@
 package com.github.dlopuch.icosastar;
 
+import static processing.core.PApplet.max;
+import static processing.core.PApplet.min;
+
 import ddf.minim.analysis.BeatDetect;
 import processing.core.PApplet;
 
@@ -44,9 +47,9 @@ public class VertexFFT {
   ) {
     this.p = parent;
     this.colorDot = colorDot;
-    this.kicks = new ArrayList(kicks);
-    this.snares = new ArrayList(snares);
-    this.hihats = new ArrayList(hihats);
+    this.kicks = new ArrayList<>(kicks);
+    this.snares = new ArrayList<>(snares);
+    this.hihats = new ArrayList<>(hihats);
 
     this.beat = beat;
 
@@ -85,7 +88,7 @@ public class VertexFFT {
     // Hihat drum
     // --------------
     if (beat.isHat()) {
-      this.rHihat = p.min(rHihat * GROW_MULT, MAX_SIZE_HIHAT_PX);
+      this.rHihat = min(rHihat * GROW_MULT, MAX_SIZE_HIHAT_PX);
     }
 
     for (IcosaVertex v : this.hihats) {
@@ -98,8 +101,8 @@ public class VertexFFT {
 
     // Decays
     // ---------
-    this.rKick  = p.max(MIN_SIZE_KICK_PX , this.rKick  * DECAY_MULT);
-    this.rSnare = p.max(MIN_SIZE_SNARE_PX, this.rSnare * DECAY_MULT);
-    this.rHihat = p.max(DECAY_HIHAT_MULT, this.rHihat * DECAY_MULT);
+    this.rKick  = max(MIN_SIZE_KICK_PX , this.rKick  * DECAY_MULT);
+    this.rSnare = max(MIN_SIZE_SNARE_PX, this.rSnare * DECAY_MULT);
+    this.rHihat = max(DECAY_HIHAT_MULT, this.rHihat * DECAY_MULT);
   }
 }

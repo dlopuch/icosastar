@@ -82,6 +82,20 @@ public class Icosastar extends PApplet {
     y1 = (y1 + speed) % (imgHeight * 2);
     y2 = (y2 + speed) % (imgHeight * 2);
 
+    this.noStroke();
+    this.fill(255);
+    int SPECTRUM_BUCKET_WIDTH_PX = 1;
+    int SPECTRUM_HEIGHT = 20;
+    float[] fftSpectrum = icosaFft.getFilter();
+    for (int i=0; i<fftSpectrum.length; i++) {
+      this.rect(
+          i * SPECTRUM_BUCKET_WIDTH_PX,
+          SIDE,
+          SPECTRUM_BUCKET_WIDTH_PX,
+          -fftSpectrum[i] * SPECTRUM_HEIGHT
+      );
+    }
+
 
     // Translate the origin point to the center of the screen
     // (for other drawers)
