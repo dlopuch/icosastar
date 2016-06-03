@@ -1,11 +1,14 @@
 package com.github.dlopuch.icosastar;
 
-import ddf.minim.analysis.*;
-import ddf.minim.*;
+import static processing.core.PApplet.log;
+import static processing.core.PApplet.map;
+import static processing.core.PApplet.max;
+
+import ddf.minim.AudioInput;
+import ddf.minim.Minim;
+import ddf.minim.analysis.BeatDetect;
+import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
-
-import java.io.InputStream;
-
 
 public class IcosaFFT {
 
@@ -23,6 +26,7 @@ public class IcosaFFT {
     this.p = parent;
 
     this.minim = new Minim(this);
+    //minim.debugOn();
 
     // Small buffer size!
     this.in = minim.getLineIn();
@@ -30,7 +34,7 @@ public class IcosaFFT {
     this.fft = new FFT(in.bufferSize(), in.sampleRate());
     this.fftFilter = new float[fft.specSize()];
 
-    this.beat = new BeatDetect(this.in.bufferSize(), 44100);
+    this.beat = new BeatDetect(in.bufferSize(), in.sampleRate());
     this.beat.setSensitivity(200);
   }
 
@@ -40,7 +44,7 @@ public class IcosaFFT {
     this.beat.detect(in.mix);
 
     for (int i = 0; i < this.fftFilter.length; i++) {
-      this.fftFilter[i] = p.max(this.fftFilter[i] * DECAY, p.log(1 + this.fft.getBand(i)));
+      this.fftFilter[i] = max(this.fftFilter[i] * DECAY, log(1 + this.fft.getBand(i)));
     }
   }
 
@@ -53,7 +57,7 @@ public class IcosaFFT {
     for (int i=0; i<numBuckets; i++) {
 
       // Sample true FFT buckets into the numBuckets specified
-      filter[i] = this.fftFilter[ (int)(p.map(i, 0, numBuckets, 0, this.fftFilter.length)) ];
+      filter[i] = this.fftFilter[ (int)(map(i, 0, numBuckets, 0, this.fftFilter.length)) ];
     }
 
     return filter;

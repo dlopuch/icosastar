@@ -15,7 +15,7 @@ public class Icosastar extends PApplet {
   ColorDot colorDot;
 //  RainbowSpiral rainbowSpiral;
   IcosaFFT icosaFft = new IcosaFFT(this);
-//  FFTSpiral fftSpiral;
+  FFTSpiral fftSpiral;
 
   int SIDE = Config.SIDE;
 
@@ -46,8 +46,8 @@ public class Icosastar extends PApplet {
         Arrays.asList(ledMapping.ring1Vs), // middle ring
         Arrays.asList(ledMapping.center)
     );
-//    fftSpiral = new FFTSpiral(this, dot, icosaFft, fftColors);
-//    // ---------
+    fftSpiral = new FFTSpiral(this, colorDot.dot, icosaFft, fftColors);
+    // ---------
 
     // Keep Last!
     ledMapping.registerDraw(this);
@@ -67,7 +67,7 @@ public class Icosastar extends PApplet {
   public void draw() {
     background(0);
 
-    //icosaFft.forward();
+    icosaFft.forward();
 
     // Mouse pointer
     float hue = (millis() * -speed) % (imgHeight*2);
