@@ -17,10 +17,10 @@ public class IcosaFFT {
   private PApplet p;
   private Minim minim;
   private AudioInput in;
-  private FFT fft;
   private float[] fftFilter;
 
-  public BeatDetect beat;
+  public final FFT fft;
+  public final BeatDetect beat;
 
   IcosaFFT(PApplet parent) {
     this.p = parent;
@@ -48,7 +48,7 @@ public class IcosaFFT {
     }
   }
 
-  float[] getFilter() {
+  public float[] getFilter() {
     return this.fftFilter.clone();
   }
 

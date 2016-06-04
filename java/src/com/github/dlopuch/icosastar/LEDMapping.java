@@ -2,8 +2,10 @@ package com.github.dlopuch.icosastar;
 
 import com.github.dlopuch.icosastar.vendor.OPC;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static java.lang.Math.cos;
@@ -23,6 +25,10 @@ public class LEDMapping {
   public IcosaVertex[] ring1Vs = new IcosaVertex[NUM_POINTS];
   public IcosaVertex[] ring2Vs = new IcosaVertex[NUM_POINTS];
   public IcosaVertex center;
+
+  public List<PVector> innerSpokeLeds;
+  public List<PVector> outerSpokeLeds;
+  public List<PVector> ring1Leds;
 
   public List<IcosaVertex> verticies = new ArrayList<IcosaVertex>();
 
@@ -60,42 +66,46 @@ public class LEDMapping {
     this.center = new IcosaVertex(new float[]{ 0.0f, 0.0f });
     verticies.add(this.center);
 
+    innerSpokeLeds = new ArrayList<>();
+    outerSpokeLeds = new ArrayList<>();
+    ring1Leds = new ArrayList<>();
+
 
     // Fadecandy port 1: Segments lining equator triangles
     // -----------
     int ledI = 64;
 
-    ledI = addLEDSegment(ledI, ring2Vs[0], ring1Vs[0]);
-    ledI = addLEDSegment(ledI, ring1Vs[0], ring2Vs[1]);
+    ledI = addLEDSegment(ledI, ring2Vs[0], ring1Vs[0], outerSpokeLeds);
+    ledI = addLEDSegment(ledI, ring1Vs[0], ring2Vs[1], outerSpokeLeds);
 
-    ledI = addLEDSegment(ledI, ring2Vs[1], ring1Vs[1]);
-    ledI = addLEDSegment(ledI, ring1Vs[1], ring2Vs[2]);
+    ledI = addLEDSegment(ledI, ring2Vs[1], ring1Vs[1], outerSpokeLeds);
+    ledI = addLEDSegment(ledI, ring1Vs[1], ring2Vs[2], outerSpokeLeds);
 
-    ledI = addLEDSegment(ledI, ring2Vs[2], ring1Vs[2]);
-    ledI = addLEDSegment(ledI, ring1Vs[2], ring2Vs[3]);
+    ledI = addLEDSegment(ledI, ring2Vs[2], ring1Vs[2], outerSpokeLeds);
+    ledI = addLEDSegment(ledI, ring1Vs[2], ring2Vs[3], outerSpokeLeds);
 
-    ledI = addLEDSegment(ledI, ring2Vs[3], ring1Vs[3]);
-    ledI = addLEDSegment(ledI, ring1Vs[3], ring2Vs[4]);
+    ledI = addLEDSegment(ledI, ring2Vs[3], ring1Vs[3], outerSpokeLeds);
+    ledI = addLEDSegment(ledI, ring1Vs[3], ring2Vs[4], outerSpokeLeds);
 
-    ledI = addLEDSegment(ledI, ring2Vs[4], ring1Vs[4]);
-    ledI = addLEDSegment(ledI, ring1Vs[4], ring2Vs[0]);
+    ledI = addLEDSegment(ledI, ring2Vs[4], ring1Vs[4], outerSpokeLeds);
+    ledI = addLEDSegment(ledI, ring1Vs[4], ring2Vs[0], outerSpokeLeds);
 
     // Fadecandy port 0: Segments lining top piece
     // -----------
     ledI = 0;
 
-    ledI = addLEDSegment(ledI, ring1Vs[2], center);
-    ledI = addLEDSegment(ledI, center, ring1Vs[3]);
-    ledI = addLEDSegment(ledI, ring1Vs[3], ring1Vs[2]);
-    ledI = addLEDSegment(ledI, ring1Vs[2], ring1Vs[1]);
-    ledI = addLEDSegment(ledI, ring1Vs[1], center);
-    ledI = addLEDSegment(ledI, center, ring1Vs[0]);
+    ledI = addLEDSegment(ledI, ring1Vs[2], center, innerSpokeLeds);
+    ledI = addLEDSegment(ledI, center, ring1Vs[3], innerSpokeLeds);
+    ledI = addLEDSegment(ledI, ring1Vs[3], ring1Vs[2], ring1Leds);
+    ledI = addLEDSegment(ledI, ring1Vs[2], ring1Vs[1], ring1Leds);
+    ledI = addLEDSegment(ledI, ring1Vs[1], center, innerSpokeLeds);
+    ledI = addLEDSegment(ledI, center, ring1Vs[0], innerSpokeLeds);
     // zero is furthest away from me
 
-    ledI = addLEDSegment(ledI, ring1Vs[0], ring1Vs[4]);
-    ledI = addLEDSegment(ledI, ring1Vs[4], center);
-    ledI = addLEDSegment(ledI, ring1Vs[3], ring1Vs[4]);
-    ledI = addLEDSegment(ledI, ring1Vs[0], ring1Vs[1]);
+    ledI = addLEDSegment(ledI, ring1Vs[0], ring1Vs[4], ring1Leds);
+    ledI = addLEDSegment(ledI, ring1Vs[4], center, innerSpokeLeds);
+    ledI = addLEDSegment(ledI, ring1Vs[3], ring1Vs[4], ring1Leds);
+    ledI = addLEDSegment(ledI, ring1Vs[0], ring1Vs[1], ring1Leds);
     //04
     //43
     //32
@@ -134,7 +144,7 @@ public class LEDMapping {
     }
   }
 
-  private int addLEDSegment(int startLedI, IcosaVertex start, IcosaVertex end) {
+  private int addLEDSegment(int startLedI, IcosaVertex start, IcosaVertex end, Collection<PVector> ledCollection) {
     int numSpacings = PX_PER_SEGMENT + 1;
 
     float deltaX = (end.x - start.x) / numSpacings;
@@ -148,6 +158,7 @@ public class LEDMapping {
     for (int i=startLedI; i < startLedI + PX_PER_SEGMENT; i++) {
       System.out.println("adding led " + i + " at " + x + " " + y);
       queuedLeds.add(new QueuedLed(i, (int)x, (int)y));
+      ledCollection.add(new PVector(x - Config.SIDE/2, y - Config.SIDE/2));
       //opc.led(i, (int)x, (int)y);
       x += deltaX;
       y += deltaY;

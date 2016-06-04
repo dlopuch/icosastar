@@ -1,6 +1,9 @@
 package com.github.dlopuch.icosastar;
 
 import com.github.dlopuch.icosastar.effects.BassBlinders;
+import com.github.dlopuch.icosastar.effects.Sparkles;
+import com.github.dlopuch.icosastar.widgets.FrequencyHistogram;
+import com.github.dlopuch.icosastar.widgets.FrequencySpectograph;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -40,6 +43,10 @@ public class Icosastar extends PApplet {
 
     // Enable some implementations:
     // --------
+
+    //new FrequencyHistogram(this, icosaFft);
+    (new FrequencySpectograph(this, icosaFft.fft)).init();
+
     //vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
     //rainbowSpiral = new RainbowSpiral(this);
     new VertexFFT(this, colorDot, icosaFft.beat,
@@ -47,9 +54,12 @@ public class Icosastar extends PApplet {
         Arrays.asList(ledMapping.ring1Vs), // middle ring
         Arrays.asList(ledMapping.center)
     );
+    //fftSpiral = new FFTSpiral(this, colorDot.dot, icosaFft, fftColors);
     BassBlinders.onBottomRing(this, colorDot, icosaFft, ledMapping);
+    new Sparkles(this, colorDot, icosaFft, ledMapping.innerSpokeLeds);
 
-    fftSpiral = new FFTSpiral(this, colorDot.dot, icosaFft, fftColors);
+
+
     // ---------
 
     // Keep Last!
@@ -84,20 +94,6 @@ public class Icosastar extends PApplet {
 
     y1 = (y1 + speed) % (imgHeight * 2);
     y2 = (y2 + speed) % (imgHeight * 2);
-
-    this.noStroke();
-    this.fill(255);
-    int SPECTRUM_BUCKET_WIDTH_PX = 1;
-    int SPECTRUM_HEIGHT = 20;
-    float[] fftSpectrum = icosaFft.getFilter();
-    for (int i=0; i<fftSpectrum.length; i++) {
-      this.rect(
-          i * SPECTRUM_BUCKET_WIDTH_PX,
-          SIDE,
-          SPECTRUM_BUCKET_WIDTH_PX,
-          -fftSpectrum[i] * SPECTRUM_HEIGHT
-      );
-    }
 
 
 

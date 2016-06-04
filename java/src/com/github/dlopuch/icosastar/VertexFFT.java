@@ -74,13 +74,13 @@ public class VertexFFT {
       this.rHihat = min(rHihat * GROW_MULT, MAX_SIZE_HIHAT_PX);
     }
 
-    for (IcosaVertex v : this.hihats) {
-      colorDot.draw(
-          v.x, v.y,
-          0, 0, 100,
-          this.rHihat, 100
-      );
-    }
+//    for (IcosaVertex v : this.hihats) {
+//      colorDot.draw(
+//          v.x, v.y,
+//          0, 0, 100,
+//          this.rHihat, 100
+//      );
+//    }
 
     // Decays
     // ---------
