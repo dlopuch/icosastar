@@ -1,5 +1,6 @@
 package com.github.dlopuch.icosastar;
 
+import com.github.dlopuch.icosastar.effects.BassBlinders;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -46,6 +47,8 @@ public class Icosastar extends PApplet {
         Arrays.asList(ledMapping.ring1Vs), // middle ring
         Arrays.asList(ledMapping.center)
     );
+    BassBlinders.onBottomRing(this, colorDot, icosaFft, ledMapping);
+
     fftSpiral = new FFTSpiral(this, colorDot.dot, icosaFft, fftColors);
     // ---------
 
@@ -95,6 +98,8 @@ public class Icosastar extends PApplet {
           -fftSpectrum[i] * SPECTRUM_HEIGHT
       );
     }
+
+
 
 
     // Translate the origin point to the center of the screen

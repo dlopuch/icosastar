@@ -20,4 +20,12 @@ public class IcosaVertex {
     this.adjacents.add(adjacent);
     adjacent.adjacents.add(this);
   }
+
+  public float getX() {
+    return x;
+  }
+
+  public float getY() {
+    return y;
+  }
 }
