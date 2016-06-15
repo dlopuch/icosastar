@@ -2,7 +2,6 @@ package com.github.dlopuch.icosastar;
 
 import com.github.dlopuch.icosastar.effects.BassBlinders;
 import com.github.dlopuch.icosastar.effects.Sparkles;
-import com.github.dlopuch.icosastar.widgets.FrequencyHistogram;
 import com.github.dlopuch.icosastar.widgets.FrequencySpectograph;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -15,10 +14,12 @@ public class Icosastar extends PApplet {
   }
 
   LEDMapping ledMapping;
-  VertexPoppers vertexPoppers;
   ColorDot colorDot;
+
+  VertexPoppers vertexPoppers;
 //  RainbowSpiral rainbowSpiral;
   IcosaFFT icosaFft = new IcosaFFT(this);
+  FrequencySpectograph frequencySpectograph;
   FFTSpiral fftSpiral;
 
   int SIDE = Config.SIDE;
@@ -45,7 +46,12 @@ public class Icosastar extends PApplet {
     // --------
 
     //new FrequencyHistogram(this, icosaFft);
-    (new FrequencySpectograph(this, icosaFft.fft)).init();
+    //this.frequencySpectograph = new FrequencySpectograph(this, icosaFft.fft);
+//    this.frequencySpectograph = new FrequencySpectograph(this,
+//        new FrequencySpectograph.OctaveFftSupplier(icosaFft.in, 60, 7)
+//    );
+//    this.frequencySpectograph.init();
+//    this.frequencySpectograph.setWidthScale(3);
 
     //vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
     //rainbowSpiral = new RainbowSpiral(this);
@@ -54,7 +60,7 @@ public class Icosastar extends PApplet {
         Arrays.asList(ledMapping.ring1Vs), // middle ring
         Arrays.asList(ledMapping.center)
     );
-    //fftSpiral = new FFTSpiral(this, colorDot.dot, icosaFft, fftColors);
+    fftSpiral = new FFTSpiral(this, colorDot.dot, icosaFft, fftColors);
     BassBlinders.onBottomRing(this, colorDot, icosaFft, ledMapping);
     new Sparkles(this, colorDot, icosaFft, ledMapping.innerSpokeLeds);
 
@@ -68,6 +74,8 @@ public class Icosastar extends PApplet {
 
   public void mousePressed() {
     //h = (h + 10) % 100;
+    //frequencySpectograph.USE_LOG_SCALE = !frequencySpectograph.USE_LOG_SCALE;
+    //System.out.println("Spectograph using log scale? " + frequencySpectograph.USE_LOG_SCALE);
   }
 
   float imgHeight = SIDE;

@@ -16,9 +16,9 @@ public class IcosaFFT {
 
   private PApplet p;
   private Minim minim;
-  private AudioInput in;
   private float[] fftFilter;
 
+  public final AudioInput in;
   public final FFT fft;
   public final BeatDetect beat;
 
@@ -28,8 +28,10 @@ public class IcosaFFT {
     this.minim = new Minim(this);
     //minim.debugOn();
 
-    // Small buffer size!
-    this.in = minim.getLineIn();
+    // 44hz is 2x 22hz (nyquist on human hearing).
+    // However, for music-reactive stuff, most stuff happens lower down.  Do only 3/4 of 44hz to get finer resolution
+    // on the frequencies we care about
+    this.in = minim.getLineIn(Minim.MONO, 1024, 44100);
 
     this.fft = new FFT(in.bufferSize(), in.sampleRate());
     this.fftFilter = new float[fft.specSize()];
