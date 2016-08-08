@@ -7,11 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jogl-all-natives-macosx-universal" level="project" />
-    <orderEntry type="library" name="gluegen-rt-natives-macosx-universal" level="project" />
-    <orderEntry type="library" name="gluegen-rt" level="project" />
-    <orderEntry type="library" name="jogl-all" level="project" />
-    <orderEntry type="library" name="core" level="project" />
     <orderEntry type="library" name="minim" level="project" />
+    <orderEntry type="library" name="processing3" level="project" />
   </component>
 </module>

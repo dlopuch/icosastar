@@ -31,13 +31,16 @@ public class Icosastar extends PApplet {
   float colorOffset = 0;
   float colorOffsetRadiansPerBucket = radians(1.5f);
 
+  public void settings() {
+    size(SIDE, SIDE, P3D); //3D to force GPU blending
+  }
 
   public void setup() {
-    size(SIDE, SIDE, P3D); //3D to force GPU blending
+
     translate(SIDE/2, SIDE/2);
 
-    pine = loadImage("pine1.jpg");
-    fftColors = loadImage("fftColors.png");
+    pine = loadImage("data/pine1.jpg");
+    fftColors = loadImage("data/fftColors.png");
     colorDot = new ColorDot(this);
 
     ledMapping = new LEDMapping();

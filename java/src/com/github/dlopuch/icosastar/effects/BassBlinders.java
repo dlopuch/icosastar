@@ -46,7 +46,7 @@ public class BassBlinders {
 
     this.vSize = this.vertices.stream().map(v -> this.minSizePx).collect(Collectors.toList());
 
-    p.registerDraw(this);
+    p.registerMethod("draw", this);
   }
 
   public void draw() {

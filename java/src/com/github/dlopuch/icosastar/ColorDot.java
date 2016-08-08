@@ -15,7 +15,7 @@ public class ColorDot {
 
   public ColorDot(PApplet parent) {
     this.p = parent;
-    this.dot = p.loadImage("dot.png");
+    this.dot = p.loadImage("data/dot.png");
   }
 
   public void draw(float x, float y, float hue, float saturation, float brightness, float size, float transparency) {

@@ -19,7 +19,7 @@ public class FrequencyHistogram {
     this.p = p;
     this.icosaFFT = icosaFFT;
 
-    p.registerDraw(this);
+    p.registerMethod("draw", this);
   }
 
   public void draw() {

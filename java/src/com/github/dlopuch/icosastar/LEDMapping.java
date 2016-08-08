@@ -134,7 +134,7 @@ public class LEDMapping {
   public void registerDraw(PApplet parent) {
     this.p = parent;
 
-    parent.registerDraw(this);
+    p.registerMethod("draw", this);
 
     // Initialize pixel mappings
     opc = new OPC(parent, "127.0.0.1", 7890);

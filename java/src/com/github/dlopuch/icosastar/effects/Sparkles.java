@@ -40,7 +40,7 @@ public class Sparkles {
     this.sparkleSpots = sparkleSpots;
     this.sparkleSizes = sparkleSpots.stream().map(ss -> 0f).collect(Collectors.toList());
 
-    p.registerDraw(this);
+    p.registerMethod("draw", this);
   }
 
   public void draw() {

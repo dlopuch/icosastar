@@ -27,7 +27,7 @@ public class FFTSpiral {
 
   FFTSpiral(PApplet parent, PImage dot, IcosaFFT fft, PImage paletteImage) {
     this.p = parent;
-    parent.registerDraw(this);
+    parent.registerMethod("draw", this);
     this.dot = dot;
     this.icosaFft = fft;
     this.fftColors = paletteImage;

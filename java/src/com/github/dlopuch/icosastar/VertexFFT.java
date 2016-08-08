@@ -49,7 +49,7 @@ public class VertexFFT {
 
     this.beat = beat;
 
-    parent.registerDraw(this);
+    p.registerMethod("draw", this);
   }
 
   public void draw() {

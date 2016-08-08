@@ -122,7 +122,7 @@ public class FrequencySpectograph {
     this.p = p;
     this.fft = fft;
 
-    p.registerDraw(this);
+    p.registerMethod("draw", this);
   }
 
   public void init() {

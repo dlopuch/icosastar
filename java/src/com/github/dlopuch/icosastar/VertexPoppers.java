@@ -29,7 +29,7 @@ public class VertexPoppers {
     this.verticies = verticies;
     this.poppers = new ArrayList();
 
-    parent.registerDraw(this);
+    parent.registerMethod("draw", this);
   }
 
   private void onPopperDie(VertexPopper popper) {
