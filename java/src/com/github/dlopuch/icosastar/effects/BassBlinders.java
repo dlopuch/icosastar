@@ -4,7 +4,6 @@ import com.github.dlopuch.icosastar.ColorDot;
 import com.github.dlopuch.icosastar.Drawable;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.IcosaVertex;
-import com.github.dlopuch.icosastar.LEDMapping;
 import ddf.minim.analysis.BeatDetect;
 import processing.core.PApplet;
 

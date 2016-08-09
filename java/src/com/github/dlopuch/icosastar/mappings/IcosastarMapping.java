@@ -1,10 +1,21 @@
-package com.github.dlopuch.icosastar;
+package com.github.dlopuch.icosastar.mappings;
 
+import com.github.dlopuch.icosastar.ColorDot;
+import com.github.dlopuch.icosastar.Config;
+import com.github.dlopuch.icosastar.Drawable;
+import com.github.dlopuch.icosastar.IcosaVertex;
+import com.github.dlopuch.icosastar.effects.BassBlinders;
+import com.github.dlopuch.icosastar.effects.FFTSpiral;
+import com.github.dlopuch.icosastar.effects.HihatSparkles;
+import com.github.dlopuch.icosastar.effects.VertexFFT;
+import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.vendor.OPC;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,15 +23,13 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 
-public class LEDMapping implements Drawable {
+public class IcosastarMapping extends LedMapping {
   int RING1_R = 150;
   int RING2_R = 230;
   int NUM_POINTS = 5;
   float POINT_OFFSET_RAD = (float)(2 * Math.PI / NUM_POINTS);
 
   int PX_PER_SEGMENT = 6;
-
-  private PApplet p;
 
   public IcosaVertex[] ring1Vs = new IcosaVertex[NUM_POINTS];
   public IcosaVertex[] ring2Vs = new IcosaVertex[NUM_POINTS];
@@ -32,22 +41,18 @@ public class LEDMapping implements Drawable {
 
   public List<IcosaVertex> verticies = new ArrayList<IcosaVertex>();
 
-  OPC opc;
+  protected ColorDot dot;
+  protected IcosaFFT fft;
 
-  private class QueuedLed {
-    int i;
-    int x;
-    int y;
+  PImage fftColors;
 
-    QueuedLed(int i, int x, int y) {
-      this.i = i;
-      this.x = x;
-      this.y = y;
-    }
-  }
-  List<QueuedLed> queuedLeds = new ArrayList();
+  public IcosastarMapping(PApplet parent, OPC opc, ColorDot dot, IcosaFFT fft) {
 
-  LEDMapping() {
+    super(parent, opc);
+
+    this.dot = dot;
+    this.fft = fft;
+    this.fftColors = parent.loadImage("data/fftColors.png");
 
     // Initialize the rings
     float r2_theta = 0;
@@ -64,11 +69,11 @@ public class LEDMapping implements Drawable {
     }
 
     this.center = new IcosaVertex(new float[]{ 0.0f, 0.0f });
-    verticies.add(this.center);
+    this.verticies.add(this.center);
 
-    innerSpokeLeds = new ArrayList<>();
-    outerSpokeLeds = new ArrayList<>();
-    ring1Leds = new ArrayList<>();
+    this.innerSpokeLeds = new ArrayList<>();
+    this.outerSpokeLeds = new ArrayList<>();
+    this.ring1Leds = new ArrayList<>();
 
 
     // Fadecandy port 1: Segments lining equator triangles
@@ -129,21 +134,6 @@ public class LEDMapping implements Drawable {
     return ret;
   }
 
-  /**
-   * Initialize the LEDMapping
-   * @param parent Parent PApplet
-   */
-  public void init(PApplet parent) {
-    this.p = parent;
-
-    // Initialize pixel mappings
-    opc = new OPC(parent, "127.0.0.1", 7890);
-
-    for (QueuedLed led : this.queuedLeds) {
-      opc.led(led.i, led.x, led.y);
-    }
-  }
-
   private int addLEDSegment(int startLedI, IcosaVertex start, IcosaVertex end, Collection<PVector> ledCollection) {
     int numSpacings = PX_PER_SEGMENT + 1;
 
@@ -157,7 +147,7 @@ public class LEDMapping implements Drawable {
 
     for (int i=startLedI; i < startLedI + PX_PER_SEGMENT; i++) {
       System.out.println("adding led " + i + " at " + x + " " + y);
-      queuedLeds.add(new QueuedLed(i, (int)x, (int)y));
+      this.opc.led(i, (int)x, (int)y);
       ledCollection.add(new PVector(x - Config.SIDE/2, y - Config.SIDE/2));
       //opc.led(i, (int)x, (int)y);
       x += deltaX;
@@ -213,5 +203,29 @@ public class LEDMapping implements Drawable {
 
   public void draw() {
     this.drawPoints();
+  }
+
+  @Override
+  public VertexFFT makeVertexFFT() {
+    return new VertexFFT(this.p, dot, fft.beat,
+        Arrays.asList(this.ring2Vs), // bottom ring
+        Arrays.asList(this.ring1Vs), // middle ring
+        Arrays.asList(this.center)
+    );
+  }
+
+  @Override
+  public FFTSpiral makeFFTSpiral() {
+    return new FFTSpiral(this.p, dot.dot, fft, fftColors);
+  }
+
+  @Override
+  public BassBlinders makeBassBlinders() {
+    return new BassBlinders(this.p, dot, fft, this.ring2Vs);
+  }
+
+  @Override
+  public HihatSparkles makeHihatSparkles() {
+    return new HihatSparkles(this.p, dot, fft, this.innerSpokeLeds);
   }
 }

@@ -8,6 +8,7 @@ package com.github.dlopuch.icosastar.vendor;
  * This file is released into the public domain.
  */
 
+import com.github.dlopuch.icosastar.Drawable;
 import processing.core.PApplet;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import static processing.core.PApplet.sin;
 import static processing.core.PApplet.PI;
 import static processing.core.PConstants.HALF_PI;
 
-public class OPC
+public class OPC implements Drawable
 {
   PApplet parent;
   Socket socket;
@@ -40,7 +41,6 @@ public class OPC
     this.host = host;
     this.port = port;
     this.enableShowLocations = true;
-    parent.registerMethod("draw", this);
   }
 
   // Set the location of a single LED

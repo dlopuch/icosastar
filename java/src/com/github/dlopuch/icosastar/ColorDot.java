@@ -11,7 +11,7 @@ import static processing.core.PConstants.*;
 public class ColorDot {
 
   private PApplet p;
-  PImage dot;
+  public PImage dot;
 
   public ColorDot(PApplet parent) {
     this.p = parent;
