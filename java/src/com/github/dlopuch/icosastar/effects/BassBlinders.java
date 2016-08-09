@@ -1,7 +1,8 @@
 package com.github.dlopuch.icosastar.effects;
 
 import com.github.dlopuch.icosastar.ColorDot;
-import com.github.dlopuch.icosastar.IcosaFFT;
+import com.github.dlopuch.icosastar.Drawable;
+import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.IcosaVertex;
 import com.github.dlopuch.icosastar.LEDMapping;
 import ddf.minim.analysis.BeatDetect;
@@ -16,7 +17,7 @@ import static processing.core.PApplet.max;
 /**
  * Makes a set of verticies flash on bass hits.  When bass and mids kick at the same time, make it extra blinding.
  */
-public class BassBlinders {
+public class BassBlinders implements Drawable {
 
   private PApplet p;
   private ColorDot colorDot;
@@ -34,19 +35,13 @@ public class BassBlinders {
   public float decayMult = 0.96f;
 
 
-  public static BassBlinders onBottomRing(PApplet p, ColorDot colorDot, IcosaFFT fft, LEDMapping leds) {
-    return new BassBlinders(p, colorDot, fft, leds.ring2Vs);
-  }
-
-  public BassBlinders(PApplet p, ColorDot colorDot, IcosaFFT fft, IcosaVertex[]vertices) {
+  public BassBlinders(PApplet p, ColorDot colorDot, IcosaFFT fft, IcosaVertex[] vertices) {
     this.p = p;
     this.colorDot = colorDot;
     this.vertices = Arrays.asList(vertices);
     this.beat = fft.beat;
 
     this.vSize = this.vertices.stream().map(v -> this.minSizePx).collect(Collectors.toList());
-
-    p.registerMethod("draw", this);
   }
 
   public void draw() {

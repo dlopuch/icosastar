@@ -12,7 +12,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 
-public class LEDMapping {
+public class LEDMapping implements Drawable {
   int RING1_R = 150;
   int RING2_R = 230;
   int NUM_POINTS = 5;
@@ -129,12 +129,12 @@ public class LEDMapping {
     return ret;
   }
 
-
-  // Call this after all other classes have registerDraw()'d
-  public void registerDraw(PApplet parent) {
+  /**
+   * Initialize the LEDMapping
+   * @param parent Parent PApplet
+   */
+  public void init(PApplet parent) {
     this.p = parent;
-
-    p.registerMethod("draw", this);
 
     // Initialize pixel mappings
     opc = new OPC(parent, "127.0.0.1", 7890);

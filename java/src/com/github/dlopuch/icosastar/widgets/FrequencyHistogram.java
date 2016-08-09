@@ -1,13 +1,14 @@
 package com.github.dlopuch.icosastar.widgets;
 
 import com.github.dlopuch.icosastar.Config;
-import com.github.dlopuch.icosastar.IcosaFFT;
+import com.github.dlopuch.icosastar.Drawable;
+import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import processing.core.PApplet;
 
 /**
  * Renders Frequency spectrum histogram
  */
-public class FrequencyHistogram {
+public class FrequencyHistogram implements Drawable {
   private final PApplet p;
   private final IcosaFFT icosaFFT;
 
@@ -18,8 +19,6 @@ public class FrequencyHistogram {
   public FrequencyHistogram(PApplet p, IcosaFFT icosaFFT) {
     this.p = p;
     this.icosaFFT = icosaFFT;
-
-    p.registerMethod("draw", this);
   }
 
   public void draw() {

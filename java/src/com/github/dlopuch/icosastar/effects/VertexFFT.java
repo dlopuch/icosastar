@@ -1,16 +1,21 @@
-package com.github.dlopuch.icosastar;
+package com.github.dlopuch.icosastar.effects;
 
 import static processing.core.PApplet.max;
 import static processing.core.PApplet.min;
 
+import com.github.dlopuch.icosastar.ColorDot;
+import com.github.dlopuch.icosastar.Drawable;
+import com.github.dlopuch.icosastar.IcosaVertex;
 import ddf.minim.analysis.BeatDetect;
 import processing.core.PApplet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class VertexFFT {
+/**
+ * Draws colorful 'pops' at verticies
+ */
+public class VertexFFT implements Drawable {
 
   private static float MIN_SIZE_SNARE_PX = 30;
   private static float MAX_SIZE_SNARE_PX = 150;
@@ -34,7 +39,7 @@ public class VertexFFT {
 
   BeatDetect beat;
 
-  VertexFFT(
+  public VertexFFT(
       PApplet parent,
       ColorDot colorDot,
       BeatDetect beat,
@@ -48,8 +53,6 @@ public class VertexFFT {
     this.hihats = new ArrayList<>(hihats);
 
     this.beat = beat;
-
-    p.registerMethod("draw", this);
   }
 
   public void draw() {
@@ -62,7 +65,7 @@ public class VertexFFT {
 
     for (IcosaVertex v : this.snares) {
       colorDot.draw(
-          v.x, v.y,
+          v.getX(), v.getY(),
           p.millis() / 10 % 100, 100, 100,
           this.rSnare, 100
       );

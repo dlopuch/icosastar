@@ -1,12 +1,14 @@
 package com.github.dlopuch.icosastar;
 
-import com.github.dlopuch.icosastar.effects.BassBlinders;
-import com.github.dlopuch.icosastar.effects.Sparkles;
-import com.github.dlopuch.icosastar.widgets.FrequencySpectograph;
+import com.github.dlopuch.icosastar.effects.*;
+import com.github.dlopuch.icosastar.signal.IcosaFFT;
+import com.github.dlopuch.icosastar.widgets.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Icosastar extends PApplet {
   static public void main(String args[]) {
@@ -16,11 +18,10 @@ public class Icosastar extends PApplet {
   LEDMapping ledMapping;
   ColorDot colorDot;
 
-  VertexPoppers vertexPoppers;
+  List<Drawable> widgets = new LinkedList<>();
+
 //  RainbowSpiral rainbowSpiral;
   IcosaFFT icosaFft = new IcosaFFT(this);
-  FrequencySpectograph frequencySpectograph;
-  FFTSpiral fftSpiral;
 
   int SIDE = Config.SIDE;
 
@@ -39,7 +40,6 @@ public class Icosastar extends PApplet {
 
     translate(SIDE/2, SIDE/2);
 
-    pine = loadImage("data/pine1.jpg");
     fftColors = loadImage("data/fftColors.png");
     colorDot = new ColorDot(this);
 
@@ -48,31 +48,40 @@ public class Icosastar extends PApplet {
     // Enable some implementations:
     // --------
 
-    //new FrequencyHistogram(this, icosaFft);
-    //this.frequencySpectograph = new FrequencySpectograph(this, icosaFft.fft);
-//    this.frequencySpectograph = new FrequencySpectograph(this,
-//        new FrequencySpectograph.OctaveFftSupplier(icosaFft.in, 60, 7)
-//    );
-//    this.frequencySpectograph.init();
-//    this.frequencySpectograph.setWidthScale(3);
+    // WIDGET: Frequency Histogram: shows FFT power distribution
+    //this.widgets.add(new FrequencyHistogram(this, icosaFft));
 
-    //vertexPoppers = new VertexPoppers(this, ledMapping.verticies);
-    //rainbowSpiral = new RainbowSpiral(this);
-    new VertexFFT(this, colorDot, icosaFft.beat,
+    // WIDGET: Spectograph
+    FrequencySpectograph frequencySpectograph = new FrequencySpectograph(this,
+        new FrequencySpectograph.OctaveFftSupplier(icosaFft.in, 60, 7)
+    );
+    frequencySpectograph.init();
+    frequencySpectograph.setWidthScale(3);
+    this.widgets.add(frequencySpectograph);
+
+    // WIDGET: VertexFFT
+    this.widgets.add( new VertexFFT(this, colorDot, icosaFft.beat,
         Arrays.asList(ledMapping.ring2Vs), // bottom ring
         Arrays.asList(ledMapping.ring1Vs), // middle ring
         Arrays.asList(ledMapping.center)
-    );
-    fftSpiral = new FFTSpiral(this, colorDot.dot, icosaFft, fftColors);
-    BassBlinders.onBottomRing(this, colorDot, icosaFft, ledMapping);
-    new Sparkles(this, colorDot, icosaFft, ledMapping.innerSpokeLeds);
+    ) );
 
+
+    // WIDGET: FFTSpiral
+    // Draws a rotating color cloud according to frequency spectrum
+    this.widgets.add(new FFTSpiral(this, colorDot.dot, icosaFft, fftColors));
+
+    // WIDGET: BassBlinders: Flash on kick hit, flash extra hard on kick+mids
+    this.widgets.add(new BassBlinders(this, colorDot, icosaFft, ledMapping.ring2Vs));
+
+    // WIDGET: HihatSparkles: flash verticies on a hihat hit
+    this.widgets.add(new HihatSparkles(this, colorDot, icosaFft, ledMapping.innerSpokeLeds));
 
 
     // ---------
 
     // Keep Last!
-    ledMapping.registerDraw(this);
+    ledMapping.init(this);
   }
 
   public void mousePressed() {
@@ -82,8 +91,6 @@ public class Icosastar extends PApplet {
   }
 
   float imgHeight = SIDE;
-  float y1 = imgHeight;
-  float y2 = 0;
 
   float speed = 0.04f;
 
@@ -93,25 +100,19 @@ public class Icosastar extends PApplet {
 
     icosaFft.forward();
 
+
     // Mouse pointer
     float hue = (millis() * -speed) % (imgHeight*2);
     colorDot.draw(mouseX, mouseY, hue, 100, 100, 200, 255);// + 200 * sin(t));
-
-
-    // Pine tree background
-    //rotate(PI/2);
-    //image(pine, 0, -y1, SIDE, imgHeight);
-    //image(pine, 0, -y2, SIDE, imgHeight);
-
-    y1 = (y1 + speed) % (imgHeight * 2);
-    y2 = (y2 + speed) % (imgHeight * 2);
-
 
 
 
     // Translate the origin point to the center of the screen
     // (for other drawers)
     translate(SIDE/2, SIDE/2);
+
+    widgets.forEach(Drawable::draw);
+    this.ledMapping.draw(); // MUST BE LAST TO DRAW (does pixel sampling to OPC, everything must be already drawn)
 
   }
 }

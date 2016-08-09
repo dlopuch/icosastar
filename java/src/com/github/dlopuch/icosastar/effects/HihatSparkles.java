@@ -1,23 +1,21 @@
 package com.github.dlopuch.icosastar.effects;
 
 import com.github.dlopuch.icosastar.ColorDot;
-import com.github.dlopuch.icosastar.IcosaFFT;
-import com.github.dlopuch.icosastar.IcosaVertex;
-import com.github.dlopuch.icosastar.LEDMapping;
+import com.github.dlopuch.icosastar.Drawable;
+import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import ddf.minim.analysis.BeatDetect;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static processing.core.PApplet.max;
 
 /**
- * Created by dlopuch on 6/4/16.
+ * Makes a random vertex pop on a hihat hit.
  */
-public class Sparkles {
+public class HihatSparkles implements Drawable {
 
   private PApplet p;
   private ColorDot colorDot;
@@ -32,7 +30,7 @@ public class Sparkles {
   public float decayMult = 0.90f;
   public float offCutoff = 0.05f;
 
-  public Sparkles(PApplet p, ColorDot colorDot, IcosaFFT fft, List<PVector> sparkleSpots) {
+  public HihatSparkles(PApplet p, ColorDot colorDot, IcosaFFT fft, List<PVector> sparkleSpots) {
     this.p = p;
     this.colorDot = colorDot;
     this.beat = fft.beat;

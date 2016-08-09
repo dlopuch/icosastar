@@ -1,4 +1,4 @@
-package com.github.dlopuch.icosastar;
+package com.github.dlopuch.icosastar.signal;
 
 import static processing.core.PApplet.log;
 import static processing.core.PApplet.map;
@@ -22,7 +22,7 @@ public class IcosaFFT {
   public final FFT fft;
   public final BeatDetect beat;
 
-  IcosaFFT(PApplet parent) {
+  public IcosaFFT(PApplet parent) {
     this.p = parent;
 
     this.minim = new Minim(this);
@@ -41,7 +41,7 @@ public class IcosaFFT {
   }
 
   // Move the FFT forward one cycle
-  void forward() {
+  public void forward() {
     this.fft.forward(in.mix);
     this.beat.detect(in.mix);
 
@@ -54,7 +54,7 @@ public class IcosaFFT {
     return this.fftFilter.clone();
   }
 
-  float[] getFilter(int numBuckets) {
+  public float[] getFilter(int numBuckets) {
     float[] filter = new float[numBuckets];
     for (int i=0; i<numBuckets; i++) {
 

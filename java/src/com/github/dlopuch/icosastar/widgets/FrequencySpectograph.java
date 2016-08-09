@@ -1,6 +1,7 @@
 package com.github.dlopuch.icosastar.widgets;
 
 import com.github.dlopuch.icosastar.Config;
+import com.github.dlopuch.icosastar.Drawable;
 import ddf.minim.AudioInput;
 import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
@@ -11,7 +12,7 @@ import static processing.core.PConstants.RGB;
 /**
  * Spectograph of frequencies over time
  */
-public class FrequencySpectograph {
+public class FrequencySpectograph implements Drawable {
   private final PApplet p;
   private final FftSupplier fft;
 
@@ -121,8 +122,6 @@ public class FrequencySpectograph {
   public FrequencySpectograph(PApplet p, FftSupplier fft) {
     this.p = p;
     this.fft = fft;
-
-    p.registerMethod("draw", this);
   }
 
   public void init() {

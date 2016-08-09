@@ -1,15 +1,17 @@
-package com.github.dlopuch.icosastar;
+package com.github.dlopuch.icosastar.effects;
 
 import static processing.core.PApplet.ADD;
 import static processing.core.PApplet.RGB;
 import static processing.core.PApplet.map;
 import static processing.core.PApplet.radians;
 
+import com.github.dlopuch.icosastar.Drawable;
+import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class FFTSpiral {
+public class FFTSpiral implements Drawable {
 
   private PApplet p;
 
@@ -25,9 +27,8 @@ public class FFTSpiral {
   float opacity = 25f;
 
 
-  FFTSpiral(PApplet parent, PImage dot, IcosaFFT fft, PImage paletteImage) {
+  public FFTSpiral(PApplet parent, PImage dot, IcosaFFT fft, PImage paletteImage) {
     this.p = parent;
-    parent.registerMethod("draw", this);
     this.dot = dot;
     this.icosaFft = fft;
     this.fftColors = paletteImage;
