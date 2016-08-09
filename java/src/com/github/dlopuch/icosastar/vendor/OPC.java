@@ -60,7 +60,7 @@ public class OPC implements Drawable
   // Set the location of several LEDs arranged in a strip.
   // Angle is in radians, measured clockwise from +X.
   // (x,y) is the center of the strip.
-  void ledStrip(int index, int count, float x, float y, float spacing, float angle, boolean reversed)
+  public void ledStrip(int index, int count, float x, float y, float spacing, float angle, boolean reversed)
   {
     float s = sin(angle);
     float c = cos(angle);
@@ -74,7 +74,7 @@ public class OPC implements Drawable
   // Set the locations of a ring of LEDs. The center of the ring is at (x, y),
   // with "radius" pixels between the center and each LED. The first LED is at
   // the indicated angle, in radians, measured clockwise from +X.
-  void ledRing(int index, int count, float x, float y, float radius, float angle)
+  public void ledRing(int index, int count, float x, float y, float radius, float angle)
   {
     for (int i = 0; i < count; i++) {
       float a = angle + i * 2 * PI / count;
@@ -86,7 +86,7 @@ public class OPC implements Drawable
   // Set the location of several LEDs arranged in a grid. The first strip is
   // at 'angle', measured in radians clockwise from +X.
   // (x,y) is the center of the grid.
-  void ledGrid(int index, int stripLength, int numStrips, float x, float y,
+  public void ledGrid(int index, int stripLength, int numStrips, float x, float y,
                float ledSpacing, float stripSpacing, float angle, boolean zigzag)
   {
     float s = sin(angle + HALF_PI);
@@ -102,7 +102,7 @@ public class OPC implements Drawable
 
   // Set the location of 64 LEDs arranged in a uniform 8x8 grid.
   // (x,y) is the center of the grid.
-  void ledGrid8x8(int index, float x, float y, float spacing, float angle, boolean zigzag)
+  public void ledGrid8x8(int index, float x, float y, float spacing, float angle, boolean zigzag)
   {
     ledGrid(index, 8, 8, x, y, spacing, spacing, angle, zigzag);
   }
@@ -111,7 +111,7 @@ public class OPC implements Drawable
   // Showing locations is enabled by default. You might need to disable it if our drawing
   // is interfering with your processing sketch, or if you'd simply like the screen to be
   // less cluttered.
-  void showLocations(boolean enabled)
+  public void showLocations(boolean enabled)
   {
     enableShowLocations = enabled;
   }
@@ -119,7 +119,7 @@ public class OPC implements Drawable
   // Enable or disable dithering. Dithering avoids the "stair-stepping" artifact and increases color
   // resolution by quickly jittering between adjacent 8-bit brightness levels about 400 times a second.
   // Dithering is on by default.
-  void setDithering(boolean enabled)
+  public void setDithering(boolean enabled)
   {
     if (enabled)
       firmwareConfig &= ~0x01;
@@ -131,7 +131,7 @@ public class OPC implements Drawable
   // Enable or disable frame interpolation. Interpolation automatically blends between consecutive frames
   // in hardware, and it does so with 16-bit per channel resolution. Combined with dithering, this helps make
   // fades very smooth. Interpolation is on by default.
-  void setInterpolation(boolean enabled)
+  public void setInterpolation(boolean enabled)
   {
     if (enabled)
       firmwareConfig &= ~0x02;
@@ -142,14 +142,14 @@ public class OPC implements Drawable
 
   // Put the Fadecandy onboard LED under automatic control. It blinks any time the firmware processes a packet.
   // This is the default configuration for the LED.
-  void statusLedAuto()
+  public void statusLedAuto()
   {
     firmwareConfig &= 0x0C;
     sendFirmwareConfigPacket();
   }
 
   // Manually turn the Fadecandy onboard LED on or off. This disables automatic LED control.
-  void setStatusLed(boolean on)
+  public void setStatusLed(boolean on)
   {
     firmwareConfig |= 0x04;   // Manual LED control
     if (on)
@@ -160,21 +160,21 @@ public class OPC implements Drawable
   }
 
   // Set the color correction parameters
-  void setColorCorrection(float gamma, float red, float green, float blue)
+  public void setColorCorrection(float gamma, float red, float green, float blue)
   {
     colorCorrection = "{ \"gamma\": " + gamma + ", \"whitepoint\": [" + red + "," + green + "," + blue + "]}";
     sendColorCorrectionPacket();
   }
 
   // Set custom color correction parameters from a string
-  void setColorCorrection(String s)
+  public void setColorCorrection(String s)
   {
     colorCorrection = s;
     sendColorCorrectionPacket();
   }
 
   // Send a packet with the current firmware configuration settings
-  void sendFirmwareConfigPacket()
+  public void sendFirmwareConfigPacket()
   {
     if (output == null) {
       // We'll do this when we reconnect
@@ -200,7 +200,7 @@ public class OPC implements Drawable
   }
 
   // Send a packet with the current color correction settings
-  void sendColorCorrectionPacket()
+  public void sendColorCorrectionPacket()
   {
     if (colorCorrection == null) {
       // No color correction defined

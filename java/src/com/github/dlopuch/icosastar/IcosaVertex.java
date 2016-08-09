@@ -1,8 +1,13 @@
 package com.github.dlopuch.icosastar;
 
+import processing.core.PVector;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @deprecated Use PVector instead
+ */
 public class IcosaVertex {
   public final float x;
   public final float y;
@@ -14,6 +19,10 @@ public class IcosaVertex {
     this.x = xy[0];
     this.y = xy[1];
     this.xy = xy;
+  }
+
+  public PVector toPVector() {
+    return new PVector(this.x, this.y);
   }
 
   public void addAdjacent(IcosaVertex adjacent) {
