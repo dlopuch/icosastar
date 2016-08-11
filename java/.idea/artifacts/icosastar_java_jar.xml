@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="icosastar-java:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/icosastar_java_jar</output-path>
+    <root id="archive" name="icosastar-java.jar">
+      <element id="module-output" name="icosastar-java" />
+      <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/modes/java/libraries/minim/library/jl1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/modes/java/libraries/minim/library/minim.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/modes/java/libraries/minim/library/jsminim.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/modes/java/libraries/minim/library/mp3spi1.9.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/modes/java/libraries/minim/library/tritonus_aos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/modes/java/libraries/minim/library/tritonus_share.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing3.app/Contents/Java/core/library/jogl-all.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing3.app/Contents/Java/core/library/jogl-all-natives-macosx-universal.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing3.app/Contents/Java/core/library/gluegen-rt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing3.app/Contents/Java/core/library/gluegen-rt-natives-macosx-universal.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/Applications/Processing3.app/Contents/Java/core/library/core.jar" path-in-jar="/" />
+      <element id="directory" name="data">
+        <element id="dir-copy" path="$PROJECT_DIR$/data" />
+      </element>
+    </root>
+  </artifact>
+</component>

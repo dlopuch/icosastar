@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="processing3">
+    <CLASSES>
+      <root url="jar:///Applications/Processing3.app/Contents/Java/core/library/core.jar!/" />
+      <root url="jar:///Applications/Processing3.app/Contents/Java/core/library/gluegen-rt.jar!/" />
+      <root url="jar:///Applications/Processing3.app/Contents/Java/core/library/jogl-all.jar!/" />
+      <root url="jar:///Applications/Processing3.app/Contents/Java/core/library/jogl-all-natives-macosx-universal.jar!/" />
+      <root url="jar:///Applications/Processing3.app/Contents/Java/core/library/gluegen-rt-natives-macosx-universal.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

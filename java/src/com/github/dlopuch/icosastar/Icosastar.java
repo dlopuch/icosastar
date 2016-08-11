@@ -39,8 +39,8 @@ public class Icosastar extends PApplet {
 
     this.opc = new OPC(this, "127.0.0.1", 7890);
 
-    //this.ledMapping = new IcosastarMapping(this, opc, colorDot, icosaFft);
-    this.ledMapping = new CloudMapping(this, opc, colorDot, icosaFft);
+    this.ledMapping = new IcosastarMapping(this, opc, colorDot, icosaFft);
+    //this.ledMapping = new CloudMapping(this, opc, colorDot, icosaFft);
 
     // Enable some implementations:
     // --------
@@ -49,12 +49,12 @@ public class Icosastar extends PApplet {
     //this.widgets.add(new FrequencyHistogram(this, icosaFft));
 
     // WIDGET: Spectograph
-    FrequencySpectograph frequencySpectograph = new FrequencySpectograph(this,
-        new FrequencySpectograph.OctaveFftSupplier(icosaFft.in, 60, 7)
-    );
-    frequencySpectograph.init();
-    frequencySpectograph.setWidthScale(3);
-    this.widgets.add(frequencySpectograph);
+//    FrequencySpectograph frequencySpectograph = new FrequencySpectograph(this,
+//        new FrequencySpectograph.OctaveFftSupplier(icosaFft.in, 60, 7)
+//    );
+//    frequencySpectograph.init();
+//    frequencySpectograph.setWidthScale(3);
+//    this.widgets.add(frequencySpectograph);
 
     // WIDGET: VertexFFT: adds color pops for lows, mids, and hi's
     this.widgets.add(this.ledMapping.makeVertexFFT());
