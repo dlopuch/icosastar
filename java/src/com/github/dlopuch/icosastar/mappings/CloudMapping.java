@@ -2,16 +2,16 @@ package com.github.dlopuch.icosastar.mappings;
 
 import com.github.dlopuch.icosastar.ColorDot;
 import com.github.dlopuch.icosastar.IcosaVertex;
-import com.github.dlopuch.icosastar.effects.BassBlinders;
-import com.github.dlopuch.icosastar.effects.FFTSpiral;
-import com.github.dlopuch.icosastar.effects.HihatSparkles;
-import com.github.dlopuch.icosastar.effects.VertexFFT;
+import com.github.dlopuch.icosastar.effects.*;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.vendor.OPC;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +34,8 @@ public class CloudMapping extends LedMapping {
   IcosaVertex kicks[] = new IcosaVertex[NUM_BASS];
   IcosaVertex snares[] = new IcosaVertex[NUM_RADIALS];
   IcosaVertex hihats[] = new IcosaVertex[NUM_RADIALS];
+
+  List<List<PVector>> radials = new ArrayList<>(NUM_RADIALS);
 
 
   public CloudMapping(PApplet parent, OPC opc, ColorDot dot, IcosaFFT fft) {
@@ -74,6 +76,8 @@ public class CloudMapping extends LedMapping {
       PVector hihat = PVector.add(center, hihatCenter);
       hihats[i] = new IcosaVertex(new float[] {hihat.x, hihat.y});
 
+      radials.add(Arrays.asList(center, hihats[i].toPVector()));
+
       ledI += PX_PER_RADIAL;
 
       theta += RADIAL_OFFSET_THETA;
@@ -113,5 +117,10 @@ public class CloudMapping extends LedMapping {
     return new HihatSparkles(this.p, dot, fft,
         Arrays.asList(this.hihats).stream().map(IcosaVertex::toPVector).collect(Collectors.toList())
     );
+  }
+
+  @Override
+  public RadialStream makeRadialStream() {
+    return new RadialStream(p, dot, fft, radials);
   }
 }

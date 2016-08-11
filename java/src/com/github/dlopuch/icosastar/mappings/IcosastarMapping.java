@@ -4,20 +4,16 @@ import com.github.dlopuch.icosastar.ColorDot;
 import com.github.dlopuch.icosastar.Config;
 import com.github.dlopuch.icosastar.Drawable;
 import com.github.dlopuch.icosastar.IcosaVertex;
-import com.github.dlopuch.icosastar.effects.BassBlinders;
-import com.github.dlopuch.icosastar.effects.FFTSpiral;
-import com.github.dlopuch.icosastar.effects.HihatSparkles;
-import com.github.dlopuch.icosastar.effects.VertexFFT;
+import com.github.dlopuch.icosastar.effects.*;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.vendor.OPC;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -38,6 +34,8 @@ public class IcosastarMapping extends LedMapping {
   public List<PVector> innerSpokeLeds;
   public List<PVector> outerSpokeLeds;
   public List<PVector> ring1Leds;
+  public List<List<PVector>> radialsCW;
+  public List<List<PVector>> radialsCCW;
 
   public List<IcosaVertex> verticies = new ArrayList<IcosaVertex>();
 
@@ -124,6 +122,31 @@ public class IcosastarMapping extends LedMapping {
     //4
     //3
 
+    radialsCW = Arrays.asList(
+        Arrays.asList(center, ring1Vs[0], ring2Vs[1]),
+        Arrays.asList(center, ring1Vs[1], ring2Vs[2]),
+        Arrays.asList(center, ring1Vs[2], ring2Vs[3]),
+        Arrays.asList(center, ring1Vs[3], ring2Vs[4]),
+        Arrays.asList(center, ring1Vs[4], ring2Vs[0])
+    ).stream()
+        .map(
+            radial -> radial.stream().map(IcosaVertex::toPVector).collect(Collectors.toList())
+        )
+        .collect(Collectors.toList());
+
+    radialsCCW = Arrays.asList(
+        Arrays.asList(center, ring1Vs[0], ring2Vs[0]),
+        Arrays.asList(center, ring1Vs[1], ring2Vs[1]),
+        Arrays.asList(center, ring1Vs[2], ring2Vs[2]),
+        Arrays.asList(center, ring1Vs[3], ring2Vs[3]),
+        Arrays.asList(center, ring1Vs[4], ring2Vs[4])
+    ).stream()
+        .map(
+            radial -> radial.stream().map(IcosaVertex::toPVector).collect(Collectors.toList())
+        )
+        .collect(Collectors.toList());
+
+
   }
 
   // Converts (r, theta) to [x, y]
@@ -149,7 +172,6 @@ public class IcosastarMapping extends LedMapping {
       System.out.println("adding led " + i + " at " + x + " " + y);
       this.opc.led(i, (int)x, (int)y);
       ledCollection.add(new PVector(x - Config.SIDE/2, y - Config.SIDE/2));
-      //opc.led(i, (int)x, (int)y);
       x += deltaX;
       y += deltaY;
     }
@@ -227,5 +249,15 @@ public class IcosastarMapping extends LedMapping {
   @Override
   public HihatSparkles makeHihatSparkles() {
     return new HihatSparkles(this.p, dot, fft, this.innerSpokeLeds);
+  }
+
+  @Override
+  public RadialStream makeRadialStream() {
+    return new RadialStream(
+        p,
+        dot,
+        fft,
+        Stream.concat(radialsCW.stream(), radialsCCW.stream()).collect(Collectors.toList())
+    );
   }
 }

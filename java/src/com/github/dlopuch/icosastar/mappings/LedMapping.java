@@ -2,10 +2,7 @@ package com.github.dlopuch.icosastar.mappings;
 
 import com.github.dlopuch.icosastar.ColorDot;
 import com.github.dlopuch.icosastar.Drawable;
-import com.github.dlopuch.icosastar.effects.BassBlinders;
-import com.github.dlopuch.icosastar.effects.FFTSpiral;
-import com.github.dlopuch.icosastar.effects.HihatSparkles;
-import com.github.dlopuch.icosastar.effects.VertexFFT;
+import com.github.dlopuch.icosastar.effects.*;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.vendor.OPC;
 import processing.core.PApplet;
@@ -34,4 +31,5 @@ public abstract class LedMapping implements Drawable {
   public abstract FFTSpiral makeFFTSpiral();
   public abstract BassBlinders makeBassBlinders();
   public abstract HihatSparkles makeHihatSparkles();
+  public abstract RadialStream makeRadialStream();
 }

@@ -1,6 +1,7 @@
 package com.github.dlopuch.icosastar;
 
 import com.github.dlopuch.icosastar.effects.FluidDynamics;
+import com.github.dlopuch.icosastar.effects.RadialStream;
 import com.github.dlopuch.icosastar.mappings.CloudMapping;
 import com.github.dlopuch.icosastar.mappings.IcosastarMapping;
 import com.github.dlopuch.icosastar.mappings.LedMapping;
@@ -42,8 +43,8 @@ public class Icosastar extends PApplet {
 
     this.opc = new OPC(this, "127.0.0.1", 7890);
 
-    //this.ledMapping = new IcosastarMapping(this, opc, colorDot, icosaFft);
-    this.ledMapping = new CloudMapping(this, opc, colorDot, icosaFft);
+    this.ledMapping = new IcosastarMapping(this, opc, colorDot, icosaFft);
+    //this.ledMapping = new CloudMapping(this, opc, colorDot, icosaFft);
 
     // Enable some implementations:
     // --------
@@ -69,10 +70,12 @@ public class Icosastar extends PApplet {
     this.widgets.add(this.ledMapping.makeFFTSpiral());
 
     // WIDGET: BassBlinders: Flash on kick hit, flash extra hard on kick+mids
-    this.widgets.add(this.ledMapping.makeBassBlinders());
+//    this.widgets.add(this.ledMapping.makeBassBlinders());
 
     // WIDGET: HihatSparkles: flash verticies on a hihat hit
-    this.widgets.add(this.ledMapping.makeHihatSparkles());
+//    this.widgets.add(this.ledMapping.makeHihatSparkles());
+
+    this.widgets.add(this.ledMapping.makeRadialStream());
 
     // EXPERIMENT: mouse-controlled FluidDynamics simulator.  Works kinda meh.
     //this.widgets.add(new FluidDynamics(this));
