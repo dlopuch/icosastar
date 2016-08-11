@@ -4,6 +4,7 @@ import com.github.dlopuch.icosastar.mappings.CloudMapping;
 import com.github.dlopuch.icosastar.mappings.IcosastarMapping;
 import com.github.dlopuch.icosastar.mappings.LedMapping;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
+import com.github.dlopuch.icosastar.signal.MockIcosaFFT;
 import com.github.dlopuch.icosastar.vendor.OPC;
 import com.github.dlopuch.icosastar.widgets.*;
 import processing.core.PApplet;
@@ -24,6 +25,7 @@ public class Icosastar extends PApplet {
   private List<Drawable> widgets = new LinkedList<>();
 
   private IcosaFFT icosaFft = new IcosaFFT(this);
+  //private IcosaFFT icosaFft = new MockIcosaFFT(this);
 
 
   public void settings() {
@@ -44,6 +46,9 @@ public class Icosastar extends PApplet {
 
     // Enable some implementations:
     // --------
+
+    // TOOL: Frame Rate Display
+    //this.widgets.add(new FrameRateCalculator(this, 3000));
 
     // WIDGET: Frequency Histogram: shows FFT power distribution
     //this.widgets.add(new FrequencyHistogram(this, icosaFft));

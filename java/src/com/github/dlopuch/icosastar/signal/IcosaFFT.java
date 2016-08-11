@@ -22,6 +22,12 @@ public class IcosaFFT {
   public final FFT fft;
   public final BeatDetect beat;
 
+  protected IcosaFFT(BeatDetect beat) {
+    this.in = null;
+    this.fft = null;
+    this.beat = beat;
+  }
+
   public IcosaFFT(PApplet parent) {
     this.p = parent;
 

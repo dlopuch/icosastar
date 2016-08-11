@@ -34,9 +34,14 @@ public class FFTSpiral implements Drawable {
     this.fftColors = paletteImage;
   }
 
+  float colorIOffset = 0;
+  float colorIInc = 0.9f;
+
   public void draw() {
     float[] fftFilter = this.icosaFft.getFilter();
     p.colorMode(RGB);
+
+    colorIOffset = (colorIOffset + colorIInc) % (float)fftFilter.length;
 
     for (int i = 0; i < fftFilter.length; i += 3) {
       // tall palettes (sample height)
@@ -47,7 +52,7 @@ public class FFTSpiral implements Drawable {
 
       // wide palettes (sample width)
       int rgb = this.fftColors.get(
-          (int)(map(i, 0, fftFilter.length-1, 0, this.fftColors.width-1)),
+          (int)(map((i + colorIOffset) % fftFilter.length, 0, fftFilter.length-1, 0, this.fftColors.width-1)),
           fftColors.height/2
       );
 
