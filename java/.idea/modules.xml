@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../heronarts_lx/heronarts_lx.iml" filepath="$PROJECT_DIR$/../../heronarts_lx/heronarts_lx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../heronarts_p3lx/heronarts_p3lx.iml" filepath="$PROJECT_DIR$/../../heronarts_p3lx/heronarts_p3lx.iml" />
       <module fileurl="file://$PROJECT_DIR$/icosastar-java.iml" filepath="$PROJECT_DIR$/icosastar-java.iml" />
     </modules>
   </component>

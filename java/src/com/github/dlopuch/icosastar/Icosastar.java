@@ -5,6 +5,7 @@ import com.github.dlopuch.icosastar.mappings.LedMapping;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.vendor.OPC;
 import com.github.dlopuch.icosastar.widgets.*;
+import heronarts.lx.pattern.LXPattern;
 import processing.core.PApplet;
 
 import java.util.LinkedList;

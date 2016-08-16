@@ -9,5 +9,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="minim" level="project" />
     <orderEntry type="library" name="processing3" level="project" />
+    <orderEntry type="library" name="heronarts_lx" level="project" />
+    <orderEntry type="library" name="heronarts_p3lx" level="project" />
+    <orderEntry type="module" module-name="heronarts_lx" />
+    <orderEntry type="module" module-name="heronarts_p3lx" />
   </component>
 </module>
