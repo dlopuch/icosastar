@@ -32,4 +32,5 @@ public abstract class LedMapping implements Drawable {
   public abstract BassBlinders makeBassBlinders();
   public abstract HihatSparkles makeHihatSparkles();
   public abstract RadialStream makeRadialStream();
+  public abstract PerlinNoise makePerlinNoiseField();
 }

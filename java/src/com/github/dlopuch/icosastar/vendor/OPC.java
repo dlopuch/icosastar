@@ -10,11 +10,13 @@ package com.github.dlopuch.icosastar.vendor;
 
 import com.github.dlopuch.icosastar.Drawable;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.*;
 import java.util.Arrays;
+import java.util.List;
 
 import static processing.core.PApplet.cos;
 import static processing.core.PApplet.sin;
@@ -57,17 +59,26 @@ public class OPC implements Drawable
     pixelLocations[index] = x + parent.width * y;
   }
 
+
   // Set the location of several LEDs arranged in a strip.
   // Angle is in radians, measured clockwise from +X.
   // (x,y) is the center of the strip.
-  public void ledStrip(int index, int count, float x, float y, float spacing, float angle, boolean reversed)
+  public void ledStrip(int index, int count, float x, float y, float spacing, float angle, boolean reversed) {
+    ledStrip(index, count, x, y, spacing, angle, reversed, null);
+  }
+
+  public void ledStrip(int index, int count, float x, float y, float spacing, float angle, boolean reversed, List<PVector> ledList)
   {
     float s = sin(angle);
     float c = cos(angle);
     for (int i = 0; i < count; i++) {
-      led(reversed ? (index + count - 1 - i) : (index + i),
-          (int)(x + (i - (count-1)/2.0) * spacing * c + 0.5),
-          (int)(y + (i - (count-1)/2.0) * spacing * s + 0.5));
+      int ledX = (int)(x + (i - (count-1)/2.0) * spacing * c + 0.5);
+      int ledY = (int)(y + (i - (count-1)/2.0) * spacing * s + 0.5);
+      led(reversed ? (index + count - 1 - i) : (index + i), ledX, ledY);
+
+      if (ledList != null) {
+        ledList.add(new PVector(ledX, ledY));
+      }
     }
   }
 

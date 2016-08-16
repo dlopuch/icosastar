@@ -1,12 +1,8 @@
 package com.github.dlopuch.icosastar;
 
-import com.github.dlopuch.icosastar.effects.FluidDynamics;
-import com.github.dlopuch.icosastar.effects.RadialStream;
-import com.github.dlopuch.icosastar.mappings.CloudMapping;
 import com.github.dlopuch.icosastar.mappings.IcosastarMapping;
 import com.github.dlopuch.icosastar.mappings.LedMapping;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
-import com.github.dlopuch.icosastar.signal.MockIcosaFFT;
 import com.github.dlopuch.icosastar.vendor.OPC;
 import com.github.dlopuch.icosastar.widgets.*;
 import processing.core.PApplet;
@@ -25,6 +21,7 @@ public class Icosastar extends PApplet {
   private LedMapping ledMapping;
 
   private List<Drawable> widgets = new LinkedList<>();
+  private List<Drawable> effects = new LinkedList<>();
 
   private IcosaFFT icosaFft = new IcosaFFT(this);
   //private IcosaFFT icosaFft = new MockIcosaFFT(this);
@@ -56,29 +53,42 @@ public class Icosastar extends PApplet {
     //this.widgets.add(new FrequencyHistogram(this, icosaFft));
 
     // WIDGET: Spectograph
-//    FrequencySpectograph frequencySpectograph = new FrequencySpectograph(this,
-//        new FrequencySpectograph.OctaveFftSupplier(icosaFft.in, 60, 7)
-//    );
-//    frequencySpectograph.init();
-//    frequencySpectograph.setWidthScale(3);
-//    this.widgets.add(frequencySpectograph);
+    FrequencySpectograph frequencySpectograph = new FrequencySpectograph(this,
+        new FrequencySpectograph.OctaveFftSupplier(icosaFft.in, 60, 7)
+    );
+    frequencySpectograph.init();
+    frequencySpectograph.setWidthScale(3);
+    this.widgets.add(frequencySpectograph);
 
-    // WIDGET: VertexFFT: adds color pops for lows, mids, and hi's
-    this.widgets.add(this.ledMapping.makeVertexFFT());
+    // WIDGET: Event Frequency Counter
+    this.widgets.add(new BeatFrequencyIndicator(this, icosaFft, 5000l));
 
-    // WIDGET: FFTSpiral: Draws a rotating color cloud according to frequency spectrum
-    this.widgets.add(this.ledMapping.makeFFTSpiral());
 
-    // WIDGET: BassBlinders: Flash on kick hit, flash extra hard on kick+mids
-//    this.widgets.add(this.ledMapping.makeBassBlinders());
+    // EFFECTS
+    // -------------------
 
-    // WIDGET: HihatSparkles: flash verticies on a hihat hit
-//    this.widgets.add(this.ledMapping.makeHihatSparkles());
+    // EFFECT: Perlin noise field
+    this.effects.add(this.ledMapping.makePerlinNoiseField());
 
-    this.widgets.add(this.ledMapping.makeRadialStream());
+    // EFFECT: VertexFFT: adds color pops for lows, mids, and hi's
+//    this.effects.add(this.ledMapping.makeVertexFFT());
 
+    // EFFECT: FFTSpiral: Draws a rotating color cloud according to frequency spectrum
+//    this.effects.add(this.ledMapping.makeFFTSpiral());
+
+    // EFFECT: BassBlinders: Flash on kick hit, flash extra hard on kick+mids
+    this.effects.add(this.ledMapping.makeBassBlinders());
+
+    // EFFECT: HihatSparkles: flash verticies on a hihat hit
+    this.effects.add(this.ledMapping.makeHihatSparkles());
+
+    // EFFECT: Bass hits send out white bursts along the radials
+    this.effects.add(this.ledMapping.makeRadialStream());
+
+    // Experiments / effects that work less well:
+    // ---------------
     // EXPERIMENT: mouse-controlled FluidDynamics simulator.  Works kinda meh.
-    //this.widgets.add(new FluidDynamics(this));
+    //this.effects.add(new FluidDynamics(this));
 
   }
 
@@ -108,8 +118,10 @@ public class Icosastar extends PApplet {
     // (for other drawers)
     translate(Config.SIDE/2, Config.SIDE/2);
 
-    widgets.forEach(Drawable::draw);
+    effects.forEach(Drawable::draw);
     this.ledMapping.draw();
     this.opc.draw(); // MUST BE LAST TO DRAW (does pixel sampling to OPC, everything must be already drawn)
+
+    widgets.forEach(Drawable::draw);
   }
 }

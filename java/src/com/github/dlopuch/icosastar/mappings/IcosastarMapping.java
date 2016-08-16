@@ -34,6 +34,8 @@ public class IcosastarMapping extends LedMapping {
   public List<PVector> innerSpokeLeds;
   public List<PVector> outerSpokeLeds;
   public List<PVector> ring1Leds;
+
+  // Lists containing the start, joint, and ends of the radials
   public List<List<PVector>> radialsCW;
   public List<List<PVector>> radialsCCW;
 
@@ -258,6 +260,18 @@ public class IcosastarMapping extends LedMapping {
         dot,
         fft,
         Stream.concat(radialsCW.stream(), radialsCCW.stream()).collect(Collectors.toList())
+    );
+  }
+
+  @Override
+  public PerlinNoise makePerlinNoiseField() {
+    return new PerlinNoise(
+        p,
+        fft,
+        Stream.concat(
+            ring1Leds.stream(),
+            Stream.concat(innerSpokeLeds.stream(), outerSpokeLeds.stream())
+        ).collect(Collectors.toList())
     );
   }
 }

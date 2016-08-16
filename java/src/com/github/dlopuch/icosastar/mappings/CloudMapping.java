@@ -36,6 +36,7 @@ public class CloudMapping extends LedMapping {
   IcosaVertex hihats[] = new IcosaVertex[NUM_RADIALS];
 
   List<List<PVector>> radials = new ArrayList<>(NUM_RADIALS);
+  List<PVector> allLeds = new ArrayList<>();
 
 
   public CloudMapping(PApplet parent, OPC opc, ColorDot dot, IcosaFFT fft) {
@@ -55,6 +56,7 @@ public class CloudMapping extends LedMapping {
     int ledI = 0;
     for (int i = 0; i < NUM_RADIALS; i++) {
 
+      List<PVector> radialLeds = new ArrayList<>();
       opc.ledStrip(
           ledI,
           PX_PER_RADIAL,
@@ -62,7 +64,8 @@ public class CloudMapping extends LedMapping {
           (float)(p.height/2.0 + radialCenter.y),
           stripLengthPx / PX_PER_RADIAL,
           theta,
-          false
+          false,
+          allLeds
       );
 
       PVector bass = PVector.add(center, bassCenter);
@@ -122,5 +125,12 @@ public class CloudMapping extends LedMapping {
   @Override
   public RadialStream makeRadialStream() {
     return new RadialStream(p, dot, fft, radials);
+  }
+
+  @Override
+  public PerlinNoise makePerlinNoiseField() {
+    return new PerlinNoise(p, fft,
+        allLeds.stream().map(led -> PVector.add(led, new PVector(-p.width/2, -p.height/2))).collect(Collectors.toList())
+    );
   }
 }
