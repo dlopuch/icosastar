@@ -3,6 +3,7 @@ package com.github.dlopuch.icosastar.lx;
 import com.github.dlopuch.icosastar.Config;
 import com.github.dlopuch.icosastar.lx.model.IcosastarLXModel;
 import com.github.dlopuch.icosastar.lx.model.IcosastarLXModelBuilder;
+import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowSpreadPattern;
 import heronarts.lx.output.FadecandyOutput;
@@ -35,6 +36,7 @@ public class IcosastarLX extends PApplet {
     lx.setPatterns(new LXPattern[] {
         new RainbowPattern(lx),
         new RainbowSpreadPattern(lx),
+        new PerlinNoisePattern(lx, this),
     });
 
     lx.addOutput(new FadecandyOutput(lx, "localhost", 7890));
