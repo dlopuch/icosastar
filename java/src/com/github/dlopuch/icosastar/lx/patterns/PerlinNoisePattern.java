@@ -1,16 +1,14 @@
 package com.github.dlopuch.icosastar.lx.patterns;
 
 
-import com.github.dlopuch.icosastar.effects.PerlinNoise;
 import com.github.dlopuch.icosastar.effects.perlin_noise.PerlinNoiseExplorer;
+import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
 import heronarts.lx.LX;
-import heronarts.lx.LXLayer;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BasicParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 import heronarts.lx.pattern.LXPattern;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -20,10 +18,12 @@ import java.util.stream.Collectors;
 
 public class PerlinNoisePattern extends LXPattern {
 
-  private PerlinNoiseExplorer hueNoise;
-  private BasicParameter hueNoiseSpeed = new BasicParameter("hue speed", 0.02, 0.005, 0.04);
-  private DiscreteParameter huePeriodMs = new DiscreteParameter("hue period", 10000, 1000, 30000);
+  private LXPerlinNoiseExplorer hueNoise;
+  public final DiscreteParameter huePeriodMs = new DiscreteParameter("h period", 10000, 1000, 30000);
   private SawLFO hueOffset = new SawLFO(0, 360, huePeriodMs);
+
+  public final LXParameter hueSpeed;
+  public final LXParameter hueXForm;
 
   private PerlinNoiseExplorer brightnessBoostNoise;
   private float brightnessBoostT = 0;
@@ -34,19 +34,24 @@ public class PerlinNoisePattern extends LXPattern {
 
     addModulator(hueOffset).start();
 
-    addParameter(huePeriodMs);
-    addParameter(hueNoiseSpeed);
+
     addParameter(brightnessBoostDecay);
 
     List<PVector> leds = this.model.getPoints().stream()
         .map(pt -> new PVector(pt.x, pt.y, pt.z))
         .collect(Collectors.toList());
 
-    this.hueNoise = new PerlinNoiseExplorer(p, leds).setSpeed(hueNoiseSpeed.getValuef());
-    this.hueNoiseSpeed.addListener(hueSpeedParam -> hueNoise.setSpeed(hueSpeedParam.getValuef()));
+    this.hueNoise = new LXPerlinNoiseExplorer(p, this.model.getPoints(), "h ");
+    addParameter(huePeriodMs);
+    addParameter(this.hueSpeed = hueNoise.noiseSpeed);
+    addParameter(this.hueXForm = hueNoise.noiseXForm);
 
-    this.brightnessBoostNoise = new PerlinNoiseExplorer(p, leds).setSpeed(hueNoiseSpeed.getValuef() * 2f);
-    this.hueNoiseSpeed.addListener(hueSpeedParam -> brightnessBoostNoise.setSpeed(hueSpeedParam.getValuef() * 2f));
+
+//    this.brightnessBoostNoise = new PerlinNoiseExplorer(p, leds).setSpeed(hueNoiseSpeed.getValuef() * 2f);
+//    this.hueNoiseSpeed.addListener(hueSpeedParam -> brightnessBoostNoise.setSpeed(hueSpeedParam.getValuef() * 2f));
+
+    // initialize according to mapping
+    ((AbstractIcosaLXModel) this.model).applyPresets(this);
   }
 
   public void run(double deltaMx) {
@@ -54,12 +59,12 @@ public class PerlinNoisePattern extends LXPattern {
       colors[p.index] = LX.hsb(
           (hueOffset.getValuef() + 360 * hueNoise.getNoise(p.index)) % 360,
           100,
-          50
+          70
       );
     }
 
     hueNoise.step();
-    brightnessBoostNoise.step();
+    //brightnessBoostNoise.step();
   }
 
 }

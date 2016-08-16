@@ -6,6 +6,7 @@ import com.github.dlopuch.icosastar.lx.model.IcosastarLXModelBuilder;
 import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowSpreadPattern;
+import com.github.dlopuch.icosastar.widgets.FrameRateCalculator;
 import heronarts.lx.output.FadecandyOutput;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.p3lx.P3LX;
@@ -25,6 +26,8 @@ public class IcosastarLX extends PApplet {
   private P3LX lx;
   private IcosastarLXModel model;
 
+  private FrameRateCalculator frc = new FrameRateCalculator(this, 3000);
+
   public void settings() {
     size(Config.SIDE, Config.SIDE, P3D); //3D to force GPU blending
   }
@@ -34,9 +37,9 @@ public class IcosastarLX extends PApplet {
     lx = new P3LX(this, model);
 
     lx.setPatterns(new LXPattern[] {
+        new PerlinNoisePattern(lx, this),
         new RainbowPattern(lx),
         new RainbowSpreadPattern(lx),
-        new PerlinNoisePattern(lx, this),
     });
 
     lx.addOutput(new FadecandyOutput(lx, "localhost", 7890));
@@ -48,12 +51,14 @@ public class IcosastarLX extends PApplet {
         .addComponent(new UIPointCloud(lx, model).setPointSize(5))
     );
 
-    lx.ui.addLayer(new UIChannelControl(lx.ui, lx, 5, 4, 4));
+    lx.ui.addLayer(new UIChannelControl(lx.ui, lx, 8, 4, 4));
   }
 
   public void draw() {
     // Wipe the frame...
     background(0x292929);
     // ...and everything else is handled by P3LX!
+
+    frc.draw();
   }
 }

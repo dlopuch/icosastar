@@ -31,14 +31,17 @@ public class LXPerlinNoiseExplorer {
   // --------------
 
   /** Vector multiplier to transform features down into noise space -- smaller makes larger perlin features */
-  public BasicParameter noiseXForm = new BasicParameter("Noise XForm", 0.01, 0.005, 0.03);
+  public final BasicParameter noiseXForm;
 
   /** Speed we move through the noise space */
-  public BasicParameter noiseSpeed = new BasicParameter("Noise Speed", 0.02, 0.005, 0.1);
+  public final BasicParameter noiseSpeed;
 
 
-  public LXPerlinNoiseExplorer(PApplet p, List<LXPoint> features) {
+  public LXPerlinNoiseExplorer(PApplet p, List<LXPoint> features, String prefix) {
     this.p = p;
+
+    noiseXForm = new BasicParameter(prefix + "xform", 0.01, 0.005, 0.03);
+    noiseSpeed = new BasicParameter(prefix + "speed", 0.02, 0.005, 0.1);
 
     this.origFeatures = features.stream().map(f -> new LXVector(f.x, f.y, f.z)).collect(Collectors.toList());
 
