@@ -7,16 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1af30397-8a76-48e3-90ca-72f0c9ac2994" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/AbstractIcosaLXModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/lx-linux-build/META-INF/MANIFEST.MF" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../../heronarts_p3lx/src/heronarts/p3lx/video/VideoCapturePattern.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../../heronarts_p3lx/src/heronarts/p3lx/video/package-info.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/icosastar_java_jar.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/icosastar_java_linux_rpi_jar.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/IcosastarLX.java" afterPath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/IcosastarLX.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/IcosastarLXModel.java" afterPath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/IcosastarLXModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/LXPerlinNoiseExplorer.java" afterPath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/LXPerlinNoiseExplorer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/PerlinNoisePattern.java" afterPath="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/PerlinNoisePattern.java" />
     </list>
     <ignored path="icosastar-java.iws" />
@@ -38,44 +31,54 @@
     <favorites_list name="icosastar-java" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.54382825">
+    <splitter split-orientation="vertical" split-proportion="0.71503496">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Icosastar.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/Icosastar.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
-                  <folding>
-                    <element signature="e#925#926#0" expanded="true" />
-                    <element signature="e#997#998#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="IcosastarLX.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/IcosastarLX.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="59">
-                  <caret line="39" column="25" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="30" />
+                <state relative-caret-position="335">
+                  <caret line="64" column="6" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#1105#1106#0" expanded="true" />
-                    <element signature="e#1177#1178#0" expanded="true" />
+                    <element signature="e#1209#1210#0" expanded="true" />
+                    <element signature="e#1281#1282#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="LXModel.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/model/LXModel.java">
+          <file leaf-file-name="BlurEffect.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/effect/BlurEffect.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="68">
-                  <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+                <state relative-caret-position="177">
+                  <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
                   <folding>
-                    <element signature="e#2856#2857#0" expanded="true" />
-                    <element signature="e#2899#2900#0" expanded="true" />
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="DecibelMeter.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/audio/DecibelMeter.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="125">
+                  <caret line="135" column="23" selection-start-line="135" selection-start-column="23" selection-end-line="135" selection-end-column="23" />
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="P3LXGraphicsPattern.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/../../heronarts_p3lx/src/heronarts/p3lx/P3LXGraphicsPattern.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="245">
+                  <caret line="36" column="3" selection-start-line="36" selection-start-column="3" selection-end-line="36" selection-end-column="3" />
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -132,20 +135,8 @@
           <file leaf-file-name="PerlinNoisePattern.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/PerlinNoisePattern.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="156">
-                  <caret line="52" column="38" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="LXPerlinNoiseExplorer.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/LXPerlinNoiseExplorer.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="197">
-                  <caret line="43" column="46" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
+                <state relative-caret-position="-410">
+                  <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -157,14 +148,26 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="PerlinNoise.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="PerlinNoise.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/effects/PerlinNoise.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="578">
-                  <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
+                <state relative-caret-position="53">
+                  <caret line="93" column="24" selection-start-line="93" selection-start-column="24" selection-end-line="93" selection-end-column="24" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <marker date="1471044488000" expanded="true" signature="2383:2556" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Icosastar.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/Icosastar.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="60">
+                  <caret line="109" column="4" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="23" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -321,9 +324,9 @@
         <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/RainbowSpreadPattern.java" />
         <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/effects/perlin_noise/PerlinNoiseExplorer.java" />
         <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/LXPerlinNoiseExplorer.java" />
-        <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/PerlinNoisePattern.java" />
         <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/AbstractIcosaLXModel.java" />
         <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/IcosastarLXModel.java" />
+        <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/PerlinNoisePattern.java" />
         <option value="$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/IcosastarLX.java" />
       </list>
     </option>
@@ -1212,76 +1215,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/effects/utils/EventFrequencyCounter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="61" column="52" selection-start-line="61" selection-start-column="41" selection-end-line="61" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#531#532#0" expanded="false" />
-            <element signature="e#551#552#0" expanded="false" />
-            <element signature="e#716#717#0" expanded="false" />
-            <element signature="e#765#766#0" expanded="false" />
-            <element signature="e#804#805#0" expanded="false" />
-            <element signature="e#857#858#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/widgets/BeatFrequencyIndicator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="42" column="39" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/Example.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/mappings/LedMapping.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="34" column="53" selection-start-line="34" selection-start-column="53" selection-end-line="34" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/LXAutomationRecorder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="42" column="32" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/LXEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/LX.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="85" column="32" selection-start-line="85" selection-start-column="32" selection-end-line="85" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/output/LXOutput.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1481,14 +1414,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/lang/Math.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="104" column="19" selection-start-line="104" selection-start-column="19" selection-end-line="104" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/util/stream/Stream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
@@ -1522,17 +1447,6 @@
         <state relative-caret-position="210">
           <caret line="43" column="33" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/Icosastar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
-          <folding>
-            <element signature="e#925#926#0" expanded="true" />
-            <element signature="e#997#998#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1578,16 +1492,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/PerlinNoisePattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="52" column="38" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/AbstractIcosaLXModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1616,16 +1520,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/IcosastarLXModelBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Applications/Processing3.app/Contents/Java/core/library/core.jar!/processing/core/PApplet.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="43">
@@ -1643,17 +1537,6 @@
           <caret line="81" column="14" selection-start-line="81" selection-start-column="14" selection-end-line="81" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/effects/PerlinNoise.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1471044488000" expanded="true" signature="2383:2556" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1676,14 +1559,128 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/IcosastarLX.java">
+    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/effect/BlurEffect.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="39" column="25" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="30" />
+        <state relative-caret-position="177">
+          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/modulator/LinearEnvelope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/modulator/LXModulator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding>
+            <element signature="e#3198#3199#0" expanded="true" />
+            <element signature="e#3247#3248#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../heronarts_p3lx/src/heronarts/p3lx/P3LXPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/audio/GraphicEQ.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10">
+          <caret line="77" column="44" selection-start-line="77" selection-start-column="44" selection-end-line="77" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/model/IcosastarLXModelBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1105#1106#0" expanded="true" />
-            <element signature="e#1177#1178#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../heronarts_lx/src/heronarts/lx/audio/DecibelMeter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="135" column="23" selection-start-line="135" selection-start-column="23" selection-end-line="135" selection-end-column="23" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/src.zip!/java/lang/Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="1427" column="25" selection-start-line="1427" selection-start-column="25" selection-end-line="1427" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/effects/PerlinNoise.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53">
+          <caret line="93" column="24" selection-start-line="93" selection-start-column="24" selection-end-line="93" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1471044488000" expanded="true" signature="2383:2556" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/Icosastar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="109" column="4" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../heronarts_p3lx/src/heronarts/p3lx/P3LXGraphicsPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="36" column="3" selection-start-line="36" selection-start-column="3" selection-end-line="36" selection-end-column="3" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/patterns/PerlinNoisePattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-410">
+          <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/dlopuch/icosastar/lx/IcosastarLX.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="64" column="6" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1209#1210#0" expanded="true" />
+            <element signature="e#1281#1282#0" expanded="true" />
           </folding>
         </state>
       </provider>
