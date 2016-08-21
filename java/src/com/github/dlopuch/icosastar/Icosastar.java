@@ -1,5 +1,6 @@
 package com.github.dlopuch.icosastar;
 
+import com.github.dlopuch.icosastar.mappings.CloudMapping;
 import com.github.dlopuch.icosastar.mappings.IcosastarMapping;
 import com.github.dlopuch.icosastar.mappings.LedMapping;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
@@ -41,8 +42,8 @@ public class Icosastar extends PApplet {
 
     this.opc = new OPC(this, "127.0.0.1", 7890);
 
-    this.ledMapping = new IcosastarMapping(this, opc, colorDot, icosaFft);
-    //this.ledMapping = new CloudMapping(this, opc, colorDot, icosaFft);
+    //this.ledMapping = new IcosastarMapping(this, opc, colorDot, icosaFft);
+    this.ledMapping = new CloudMapping(this, opc, colorDot, icosaFft);
 
     // Enable some implementations:
     // --------

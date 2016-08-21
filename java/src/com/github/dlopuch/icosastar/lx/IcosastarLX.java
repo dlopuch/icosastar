@@ -1,9 +1,12 @@
 package com.github.dlopuch.icosastar.lx;
 
 import com.github.dlopuch.icosastar.Config;
+import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
+import com.github.dlopuch.icosastar.lx.model.CloudLXModelBuilder;
 import com.github.dlopuch.icosastar.lx.model.IcosastarLXModel;
 import com.github.dlopuch.icosastar.lx.model.IcosastarLXModelBuilder;
 import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
+import com.github.dlopuch.icosastar.lx.patterns.RainbowFadecandyPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowSpreadPattern;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
@@ -25,11 +28,11 @@ public class IcosastarLX extends PApplet {
   }
 
   private P3LX lx;
-  private IcosastarLXModel model;
+  private AbstractIcosaLXModel model;
 
   private IcosaFFT icosaFft = new IcosaFFT(this);
 
-  private FrameRateCalculator frc = new FrameRateCalculator(this, 3000);
+  private FrameRateCalculator frc = new FrameRateCalculator(this, 3000, icosaFft.in.mix);
 
   public void settings() {
     size(Config.SIDE, Config.SIDE, P3D); //3D to force GPU blending
@@ -37,12 +40,15 @@ public class IcosastarLX extends PApplet {
 
   public void setup() {
     model = IcosastarLXModelBuilder.makeModel();
+    //model = CloudLXModelBuilder.makeModel();
+
     lx = new P3LX(this, model);
 
     lx.setPatterns(new LXPattern[] {
         new PerlinNoisePattern(lx, this, icosaFft),
         new RainbowPattern(lx),
         new RainbowSpreadPattern(lx),
+        //new RainbowFadecandyPattern(lx)
     });
 
     lx.addOutput(new FadecandyOutput(lx, "localhost", 7890));
@@ -62,7 +68,7 @@ public class IcosastarLX extends PApplet {
     background(0x292929);
     // ...and everything else is handled by P3LX!
 
-    //frc.draw();
+    frc.draw();
     icosaFft.forward();
   }
 }
