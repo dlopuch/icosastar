@@ -1,0 +1,40 @@
+{
+  "listen": ["127.0.0.1", 7890],
+  "verbose": true,
+
+  "color": {
+    "gamma": 2.5,
+    "whitepoint": [1.0, 1.0, 1.0]
+  },
+
+  "devices": [
+    {
+      "type": "fadecandy",
+      "serial": "PJFRMGUUQWJDHNKZ",
+      "map": [
+        [ 0, 0, 0, 512 ]
+      ]
+    },
+    {
+      "type": "fadecandy",
+      "serial": "WQOUFZUYEOJRPBSD",
+      "map": [
+        [ 0, 512, 0, 512 ]
+      ]
+    },
+    {
+      "type": "fadecandy",
+      "serial": "BPXDWYQAUMVDVJCJ",
+      "map": [
+        [ 0, 1024, 0, 512 ]
+      ]
+    },
+    {
+      "type": "fadecandy",
+      "serial": "WOIWTLNVCEHPTNKL",
+      "map": [
+        [ 0, 1536, 0, 512 ]
+      ]
+    }
+  ]
+}
