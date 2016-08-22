@@ -2,7 +2,6 @@ package com.github.dlopuch.icosastar.lx.model;
 
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.transform.LXVector;
-import processing.core.PApplet;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,7 +9,7 @@ import java.util.List;
 
 public class CloudLXModelBuilder {
 
-  public static final int NUM_FADECANDIES = 2;
+  public static final int NUM_FADECANDIES = 4;
 
   /** Length of radials, in lx display units */
   private static final float ALPHA = 100;

@@ -63,7 +63,7 @@ public class PerlinNoisePattern extends LXPattern {
     brightnessBoostNoise.noiseXForm.setValue(0.5 * this.hueXForm.getValue());
   }
 
-  public void run(double deltaMx) {
+  public void run(double deltaMs) {
     boolean isBrightnessBoost = beat.isKick();
     if (isBrightnessBoost) {
       brightnessBoostT = 1.0f;

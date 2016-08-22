@@ -14,12 +14,12 @@ public class IcosaFFT {
 
   private static float DECAY = 0.97f;
 
-  private PApplet p;
   private Minim minim;
   private float[] fftFilter;
 
+  private FFT fft;
+
   public final AudioInput in;
-  public final FFT fft;
   public final BeatDetect beat;
 
   protected IcosaFFT(BeatDetect beat) {
@@ -28,8 +28,7 @@ public class IcosaFFT {
     this.beat = beat;
   }
 
-  public IcosaFFT(PApplet parent) {
-    this.p = parent;
+  public IcosaFFT() {
 
     this.minim = new Minim(this);
     //minim.debugOn();
@@ -39,8 +38,9 @@ public class IcosaFFT {
     // on the frequencies we care about
     this.in = minim.getLineIn(Minim.MONO, 1024, 44100);
 
-    this.fft = new FFT(in.bufferSize(), in.sampleRate());
-    this.fftFilter = new float[fft.specSize()];
+    // TODO: Turned off to get some extra processing?  No effect  :(
+    //this.fft = new FFT(in.bufferSize(), in.sampleRate());
+    //this.fftFilter = new float[fft.specSize()];
 
     this.beat = new BeatDetect(in.bufferSize(), in.sampleRate());
     this.beat.setSensitivity(200);
@@ -48,15 +48,21 @@ public class IcosaFFT {
 
   // Move the FFT forward one cycle
   public void forward() {
-    this.fft.forward(in.mix);
     this.beat.detect(in.mix);
 
-    for (int i = 0; i < this.fftFilter.length; i++) {
-      this.fftFilter[i] = max(this.fftFilter[i] * DECAY, log(1 + this.fft.getBand(i)));
+    if (this.fft != null) {
+      this.fft.forward(in.mix);
+
+      for (int i = 0; i < this.fftFilter.length; i++) {
+        this.fftFilter[i] = max(this.fftFilter[i] * DECAY, log(1 + this.fft.getBand(i)));
+      }
     }
   }
 
   public float[] getFilter() {
+    if (this.fft == null) {
+      throw new UnsupportedOperationException("Manual FFT turned off");
+    }
     return this.fftFilter.clone();
   }
 

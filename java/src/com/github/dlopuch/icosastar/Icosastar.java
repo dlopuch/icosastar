@@ -25,7 +25,7 @@ public class Icosastar extends PApplet {
   private List<Drawable> widgets = new LinkedList<>();
   private List<Drawable> effects = new LinkedList<>();
 
-  private IcosaFFT icosaFft = new IcosaFFT(this);
+  private IcosaFFT icosaFft = new IcosaFFT();
   //private IcosaFFT icosaFft = new MockIcosaFFT(this);
 
 
