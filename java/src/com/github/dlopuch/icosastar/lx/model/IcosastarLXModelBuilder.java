@@ -22,7 +22,7 @@ public class IcosastarLXModelBuilder {
 
   private static final float POINT_OFFSET_RAD = (float)(2 * Math.PI / NUM_POINTS);
 
-  public static IcosastarLXModel makeModel() {
+  public static IcosastarLXModel makeModel(boolean hasGui) {
 
     LXVector[] ring1Vs = new LXVector[NUM_POINTS];
     LXVector[] ring2Vs = new LXVector[NUM_POINTS];
@@ -84,7 +84,7 @@ public class IcosastarLXModelBuilder {
     addLedSegment(outerSpokeLeds, ring2Vs[4], ring1Vs[4]);
     addLedSegment(outerSpokeLeds, ring1Vs[4], ring2Vs[0]);
 
-    return new IcosastarLXModel(innerSpokeLeds, outerSpokeLeds, ring1Leds, unusedLeds);
+    return new IcosastarLXModel(innerSpokeLeds, outerSpokeLeds, ring1Leds, unusedLeds, hasGui);
   }
 
   private static void addLedSegment(List<LXFixture> toWhere, LXVector start, LXVector end) {

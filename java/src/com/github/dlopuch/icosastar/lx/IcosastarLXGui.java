@@ -1,10 +1,7 @@
 package com.github.dlopuch.icosastar.lx;
 
 import com.github.dlopuch.icosastar.Config;
-import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
-import com.github.dlopuch.icosastar.lx.model.CloudLXModelBuilder;
-import com.github.dlopuch.icosastar.lx.model.IcosastarLXModel;
-import com.github.dlopuch.icosastar.lx.model.IcosastarLXModelBuilder;
+import com.github.dlopuch.icosastar.lx.model.*;
 import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowFadecandyPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
@@ -42,17 +39,13 @@ public class IcosastarLXGui extends PApplet {
   }
 
   public void setup() {
-    //model = IcosastarLXModelBuilder.makeModel();
-    model = CloudLXModelBuilder.makeModel();
+    model = ModelSupplier.getModel(true);
 
     lx = new P3LX(this, model);
 
-    lx.setPatterns(new LXPattern[] {
-        new PerlinNoisePattern(lx, this, icosaFft),
-        new RainbowPattern(lx),
-        new RainbowSpreadPattern(lx),
-        new RainbowFadecandyPattern(lx)
-    });
+    model.initLx(lx);
+
+    model.addPatternsAndGo(lx, this, icosaFft);
 
     fcOutput = new FadecandyOutput(lx, "localhost", 7890);
     lx.addOutput(fcOutput);
@@ -60,7 +53,7 @@ public class IcosastarLXGui extends PApplet {
     lx.ui.addLayer(
         new UI3dContext(lx.ui)
         .setCenter(model.cx, model.cy, model.cz)
-        .setRadius(130)
+        .setRadius(model.xMax - model.xMin)
         .addComponent(new UIPointCloud(lx, model).setPointSize(5))
     );
 

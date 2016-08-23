@@ -1,17 +1,12 @@
 package com.github.dlopuch.icosastar.lx;
 
 import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
-import com.github.dlopuch.icosastar.lx.model.CloudLXModelBuilder;
-import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
-import com.github.dlopuch.icosastar.lx.patterns.RainbowFadecandyPattern;
-import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
-import com.github.dlopuch.icosastar.lx.patterns.RainbowSpreadPattern;
+import com.github.dlopuch.icosastar.lx.model.ModelSupplier;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.widgets.FrameRateCalculator;
 import heronarts.lx.LX;
 import heronarts.lx.output.FadecandyOutput;
 import heronarts.lx.output.LXOutput;
-import heronarts.lx.pattern.LXPattern;
 import processing.core.PApplet;
 
 /**
@@ -40,20 +35,11 @@ public class IcosastarLX extends PApplet {
   public void setup() {
     PApplet.println("Starting 'headless' icosastar...");
 
-
-    //model = IcosastarLXModelBuilder.makeModel();
-    model = CloudLXModelBuilder.makeModel();
+    model = ModelSupplier.getModel(false);
 
     lx = new LX(model);
 
-    LXPattern perlinNoise = new PerlinNoisePattern(lx, this, icosaFft);
-    lx.setPatterns(new LXPattern[] {
-        perlinNoise,
-        new RainbowPattern(lx),
-        new RainbowSpreadPattern(lx),
-        new RainbowFadecandyPattern(lx)
-    });
-    lx.goPattern(perlinNoise);
+    model.addPatternsAndGo(lx, this, icosaFft);
 
     fcOutput = new FadecandyOutput(lx, "localhost", 7890);
     lx.addOutput(fcOutput);

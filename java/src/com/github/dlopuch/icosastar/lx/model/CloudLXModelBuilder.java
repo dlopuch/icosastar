@@ -23,7 +23,7 @@ public class CloudLXModelBuilder {
   // Theta between radials
   private static final float RADIAL_OFFSET_THETA = 2f * (float)Math.PI / (float)NUM_RADIALS;
 
-  public static CloudLXModel makeModel() {
+  public static CloudLXModel makeModel(boolean hasGui) {
     List<List<LXFixture>> fadecandyFixtures = new ArrayList<>(NUM_FADECANDIES);
 
     LXVector center = new LXVector(0, 0, 0);
@@ -42,6 +42,6 @@ public class CloudLXModelBuilder {
     List<LXFixture> allFixtures = new LinkedList<>();
     fadecandyFixtures.forEach(allFixtures::addAll);
 
-    return new CloudLXModel(allFixtures, fadecandyFixtures);
+    return new CloudLXModel(allFixtures, fadecandyFixtures, hasGui);
   }
 }

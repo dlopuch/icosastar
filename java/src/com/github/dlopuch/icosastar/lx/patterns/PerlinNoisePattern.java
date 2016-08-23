@@ -3,12 +3,15 @@ package com.github.dlopuch.icosastar.lx.patterns;
 
 import com.github.dlopuch.icosastar.effects.perlin_noise.PerlinNoiseExplorer;
 import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
+import com.github.dlopuch.icosastar.lx.utils.GradientSupplier;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import ddf.minim.analysis.BeatDetect;
 import heronarts.lx.LX;
+import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BasicParameter;
+import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
@@ -33,6 +36,10 @@ public class PerlinNoisePattern extends LXPattern {
   private float brightnessBoostT = 0;
   private BasicParameter brightnessBoostDecay = new BasicParameter("bright decay", 0.97, 0.999, 0.80);
 
+  public final BooleanParameter useGradientSupplier = new BooleanParameter("use grad", false);
+  public final GradientSupplier gradientSupplier;
+  private SawLFO gradientAutoselect;
+
   public PerlinNoisePattern(LX lx, PApplet p, IcosaFFT fft) {
     super(lx);
 
@@ -40,6 +47,7 @@ public class PerlinNoisePattern extends LXPattern {
 
     addModulator(hueOffset).start();
 
+    this.gradientSupplier = new GradientSupplier(p);
 
     List<PVector> leds = this.model.getPoints().stream()
         .map(pt -> new PVector(pt.x, pt.y, pt.z))
@@ -56,6 +64,24 @@ public class PerlinNoisePattern extends LXPattern {
     addParameter(brightnessBoostNoise.noiseSpeed);
     addParameter(brightnessBoostNoise.noiseXForm);
 
+    // Gradient supplier
+    addParameter(useGradientSupplier);
+    addParameter(gradientSupplier.gradientSelect);
+
+    // Add an auto-rotate-through-gradients if in headless
+    if (!((AbstractIcosaLXModel) this.model).hasGui) {
+      useGradientSupplier.setValue(true);
+      gradientAutoselect = new SawLFO(
+          gradientSupplier.gradientSelect.getMinValue(),
+          gradientSupplier.gradientSelect.getMaxValue() + 1,
+          5000 * (gradientSupplier.gradientSelect.getMaxValue() + 1)
+      );
+      gradientSupplier.gradientSelect.addListener(param -> System.out.println("Using gradient #" + param.getValue()) );
+      addModulator(
+          gradientAutoselect
+      ).start();
+    }
+
 
     // initialize according to mapping
     ((AbstractIcosaLXModel) this.model).applyPresets(this);
@@ -64,6 +90,11 @@ public class PerlinNoisePattern extends LXPattern {
   }
 
   public void run(double deltaMs) {
+    if (gradientAutoselect != null) {
+      gradientSupplier.gradientSelect.setValue(Math.floor(gradientAutoselect.getValue()));
+    }
+
+
     boolean isBrightnessBoost = beat.isKick();
     if (isBrightnessBoost) {
       brightnessBoostT = 1.0f;
@@ -72,11 +103,26 @@ public class PerlinNoisePattern extends LXPattern {
     }
 
     for (LXPoint p : this.model.points) {
-      colors[p.index] = LX.hsb(
-          (hueOffset.getValuef() + 360 * hueNoise.getNoise(p.index)) % 360,
-          100,
-          30 + (brightnessBoostT > 0.05 ? brightnessBoostT * 60 * brightnessBoostNoise.getNoise(p.index) : 0)
-      );
+      int color;
+      if (!useGradientSupplier.getValueb()) {
+        color = LX.hsb(
+            (hueOffset.getValuef() + 360 * hueNoise.getNoise(p.index)) % 360,
+            100,
+            30 + (brightnessBoostT > 0.05 ? brightnessBoostT * 60 * brightnessBoostNoise.getNoise(p.index) : 0)
+        );
+      } else {
+        color = gradientSupplier.getColor(hueNoise.getNoise(p.index));
+        float b = LXColor.b(color);
+        color = LX.hsb(
+            LXColor.h(color),
+            LXColor.s(color),
+            30f * b/100f + (brightnessBoostT > 0.05 ? brightnessBoostT * 70 * brightnessBoostNoise.getNoise(p.index) : 0)
+            //60f * b/100f + (brightnessBoostT > 0.05 ? brightnessBoostT * 40 * brightnessBoostNoise.getNoise(p.index) : 0)
+        );
+      }
+
+      colors[p.index] = color;
+
     }
 
     if (beat.isSnare() && beat.isKick()) {
