@@ -1,6 +1,7 @@
 package com.github.dlopuch.icosastar.widgets;
 
 import com.github.dlopuch.icosastar.Drawable;
+import com.github.dlopuch.icosastar.lx.utils.RaspiGpio;
 import ddf.minim.AudioBuffer;
 import processing.core.PApplet;
 
@@ -35,7 +36,17 @@ public class FrameRateCalculator implements Drawable {
     if (now - lastPrint > printFrequencyMs) {
       if (isVerbose) {
         PApplet.println("Frame rate: " + ((float) frameCount / ((float) (now - lastPrint) / 1000.0)) + " fps");
+
+        if (RaspiGpio.isActive()) {
+          System.out.println("GPIO: toggle:" + RaspiGpio.isToggle() +
+              " blackM:" + RaspiGpio.isBlackMoment() +
+              " yellowM:" + RaspiGpio.isYellowMoment() +
+              " resetM:" + RaspiGpio.isResetMoment() +
+              " DIP: " + RaspiGpio.getDipValue()
+          );
+        }
       }
+
       lastPrint = now;
       frameCount = 0;
     }

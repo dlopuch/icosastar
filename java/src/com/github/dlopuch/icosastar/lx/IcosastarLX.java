@@ -3,12 +3,15 @@ package com.github.dlopuch.icosastar.lx;
 import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
 import com.github.dlopuch.icosastar.lx.model.ModelSupplier;
 import com.github.dlopuch.icosastar.lx.utils.AudioDetector;
+import com.github.dlopuch.icosastar.lx.utils.DeferredLxOutputProvider;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.widgets.FrameRateCalculator;
 import heronarts.lx.LX;
 import heronarts.lx.output.FadecandyOutput;
 import heronarts.lx.output.LXOutput;
 import processing.core.PApplet;
+
+import java.io.IOException;
 
 /**
  * Headless (no gui) version of icosastar.
@@ -45,16 +48,22 @@ public class IcosastarLX extends PApplet {
   public void setup() {
     PApplet.println("Starting 'headless' icosastar...");
 
-    model = ModelSupplier.getModel(false);
+    IcosastarLX me = this;
+    model = ModelSupplier.getModel(false, new DeferredLxOutputProvider() {
+      @Override
+      public LXOutput getOutput() {
+        return me.fcOutput; // set later after lx initialized
+      }
+    });
 
     frc = new FrameRateCalculator(this, 3000, isVerbose);
     AudioDetector.init(icosaFft.in.mix);
 
     lx = new LX(model);
+    fcOutput = new FadecandyOutput(lx, "localhost", 7890);
 
     model.addPatternsAndGo(lx, this, icosaFft);
 
-    fcOutput = new FadecandyOutput(lx, "localhost", 7890);
     lx.addOutput(fcOutput);
 
     Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {

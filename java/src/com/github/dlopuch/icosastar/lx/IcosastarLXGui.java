@@ -7,6 +7,7 @@ import com.github.dlopuch.icosastar.lx.patterns.RainbowFadecandyPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowSpreadPattern;
 import com.github.dlopuch.icosastar.lx.utils.AudioDetector;
+import com.github.dlopuch.icosastar.lx.utils.DeferredLxOutputProvider;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.widgets.FrameRateCalculator;
 import heronarts.lx.model.LXPoint;
@@ -49,18 +50,25 @@ public class IcosastarLXGui extends PApplet {
   }
 
   public void setup() {
-    model = ModelSupplier.getModel(true);
+
+    IcosastarLXGui me = this;
+    model = ModelSupplier.getModel(true, new DeferredLxOutputProvider() {
+      @Override
+      public LXOutput getOutput() {
+        return me.fcOutput; // set later after lx initialized
+      }
+    });
 
     frc = new FrameRateCalculator(this, 3000, isVerbose);
     AudioDetector.init(icosaFft.in.mix);
 
     lx = new P3LX(this, model);
+    fcOutput = new FadecandyOutput(lx, "localhost", 7890);
 
     model.initLx(lx);
 
     model.addPatternsAndGo(lx, this, icosaFft);
 
-    fcOutput = new FadecandyOutput(lx, "localhost", 7890);
     lx.addOutput(fcOutput);
 
     lx.ui.addLayer(

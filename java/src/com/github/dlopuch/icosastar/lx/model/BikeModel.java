@@ -2,10 +2,13 @@ package com.github.dlopuch.icosastar.lx.model;
 
 
 import com.github.dlopuch.icosastar.lx.patterns.*;
+import com.github.dlopuch.icosastar.lx.utils.DeferredLxOutputProvider;
+import com.github.dlopuch.icosastar.lx.utils.RaspiGpio;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.model.LXPoint;
+import heronarts.lx.output.LXOutput;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.transform.LXVector;
 import processing.core.PApplet;
@@ -46,7 +49,7 @@ public class BikeModel extends AbstractIcosaLXModel {
   private static final int LEN_SEATPOST_HANDLEBARS = 40;
   private static final int LEN_HANDLEBARS_PEDALS_HALF = NUM_LEDS_PER_STRIP - LEN_SEATPOST_HANDLEBARS;
 
-  public static BikeModel makeModel(boolean hasGui) {
+  public static BikeModel makeModel(boolean hasGui, DeferredLxOutputProvider outputProvider) {
     List<LXFixture> allFixtures = new ArrayList<>();
     List<LXFixture> framePieces = new ArrayList<>();
 
@@ -92,14 +95,19 @@ public class BikeModel extends AbstractIcosaLXModel {
     ).collect(Collectors.toList());
     framePieces.add(() -> handlebarsToPedals); // lambda-ify new LXFixture()
 
-    return new BikeModel(allFixtures, framePieces, brakeBlob, hasGui);
+    return new BikeModel(outputProvider, allFixtures, framePieces, brakeBlob, hasGui);
   }
 
-  private BikeModel(List<LXFixture> allFixtures, List<LXFixture> framePieces, LXFixture brakeBlob, boolean hasGui) {
+  private BikeModel(DeferredLxOutputProvider output, List<LXFixture> allFixtures, List<LXFixture> framePieces, LXFixture brakeBlob, boolean hasGui) {
     super(allFixtures.toArray(new LXFixture[allFixtures.size()]), hasGui);
+
+    System.out.println("Starting up with bike model");
 
     this.framePieces = framePieces;
     this.brakeBlob = brakeBlob;
+
+    // Bike runs on raspi.  Get additional inputs.
+    RaspiGpio.init(output);
   }
 
   @Override

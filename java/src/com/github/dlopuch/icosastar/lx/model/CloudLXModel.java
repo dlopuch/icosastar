@@ -24,6 +24,8 @@ public class CloudLXModel extends AbstractIcosaLXModel {
   public CloudLXModel(List<LXFixture> allRadials, List<List<LXFixture>> radialsByFadecandy, boolean hasGui) {
     super(allRadials.toArray(new LXFixture[allRadials.size()]), hasGui);
 
+    System.out.println("Starting up with the dance cloud model");
+
     this.allRadials = allRadials;
 
     this.radialsByFadecandy = radialsByFadecandy;

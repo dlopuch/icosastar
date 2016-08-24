@@ -13,5 +13,6 @@
     <orderEntry type="library" name="heronarts_p3lx" level="project" />
     <orderEntry type="module" module-name="heronarts_lx" />
     <orderEntry type="module" module-name="heronarts_p3lx" />
+    <orderEntry type="module" module-name="pi4j-core" />
   </component>
 </module>

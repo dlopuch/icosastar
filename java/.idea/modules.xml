@@ -5,6 +5,15 @@
       <module fileurl="file://$PROJECT_DIR$/../../heronarts_lx/heronarts_lx.iml" filepath="$PROJECT_DIR$/../../heronarts_lx/heronarts_lx.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../heronarts_p3lx/heronarts_p3lx.iml" filepath="$PROJECT_DIR$/../../heronarts_p3lx/heronarts_p3lx.iml" />
       <module fileurl="file://$PROJECT_DIR$/icosastar-java.iml" filepath="$PROJECT_DIR$/icosastar-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-core/src/main/pi4j-core.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-core/src/main/pi4j-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-core/src/test/pi4j-core-test.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-core/src/test/pi4j-core-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-device/src/main/pi4j-device.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-device/src/main/pi4j-device.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-device/src/test/pi4j-device-test.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-device/src/test/pi4j-device-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-example/src/main/pi4j-example.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-example/src/main/pi4j-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-gpio-extension/src/main/pi4j-gpio-extensions.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-gpio-extension/src/main/pi4j-gpio-extensions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-gpio-extension/src/test/pi4j-gpio-extensions-test.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-gpio-extension/src/test/pi4j-gpio-extensions-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-service/src/main/pi4j-service.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-service/src/main/pi4j-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../pi4j/pi4j-temp/src/main/pi4j-temp.iml" filepath="$PROJECT_DIR$/../../pi4j/pi4j-temp/src/main/pi4j-temp.iml" />
     </modules>
   </component>
 </project>

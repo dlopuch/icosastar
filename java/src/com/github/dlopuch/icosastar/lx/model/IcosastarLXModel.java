@@ -35,6 +35,8 @@ public class IcosastarLXModel extends AbstractIcosaLXModel {
         ).toArray(LXFixture[]::new),
         hasGui
     );
+    System.out.println("Starting up with icosastar model");
+
     this.innerSpokeLeds = innerSpokeLeds;
     this.outerSpokeLeds = outerSpokeLeds;
     this.ring1Leds = ring1Leds;
