@@ -15,35 +15,29 @@ public class FrameRateCalculator implements Drawable {
   private int lastPrint;
   private int frameCount = 0;
 
-  private AudioBuffer audio;
-  private float maxAudioLevel;
+  private boolean isVerbose = false;
 
   public FrameRateCalculator(PApplet p) {
-    this(p, 1000, null);
+    this(p, 1000, false);
   }
 
-  public FrameRateCalculator(PApplet p, int printFrequencyMs, AudioBuffer audio) {
+  public FrameRateCalculator(PApplet p, int printFrequencyMs, boolean isVerbose) {
     this.p = p;
     this.printFrequencyMs = printFrequencyMs;
-    this.audio = audio;
     lastPrint = p.millis();
+    this.isVerbose = isVerbose;
   }
 
   public void draw() {
     frameCount++;
 
-    if (audio != null) {
-      maxAudioLevel = Math.max(maxAudioLevel, audio.level());
-    }
-
     int now = p.millis();
     if (now - lastPrint > printFrequencyMs) {
-      PApplet.println("Frame rate: " + ((float)frameCount / ( (float)(now - lastPrint)/1000.0)) + " fps");
+      if (isVerbose) {
+        PApplet.println("Frame rate: " + ((float) frameCount / ((float) (now - lastPrint) / 1000.0)) + " fps");
+      }
       lastPrint = now;
       frameCount = 0;
-
-      PApplet.println("Max audio level:" + maxAudioLevel);
-      maxAudioLevel = 0;
     }
   }
 }

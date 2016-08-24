@@ -2,6 +2,7 @@ package com.github.dlopuch.icosastar.lx;
 
 import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
 import com.github.dlopuch.icosastar.lx.model.ModelSupplier;
+import com.github.dlopuch.icosastar.lx.utils.AudioDetector;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.widgets.FrameRateCalculator;
 import heronarts.lx.LX;
@@ -15,9 +16,16 @@ import processing.core.PApplet;
  * (Technically has a PApplet gui, but rendered without any contents to minimize any rendering time).
  */
 public class IcosastarLX extends PApplet {
+  private static boolean isVerbose = false;
 
   static public void main(String args[]) {
     PApplet.main(new String[] { "com.github.dlopuch.icosastar.lx.IcosastarLX" });
+
+    for (String s: args) {
+      if (s.equalsIgnoreCase("-v")) {
+        isVerbose = true;
+      }
+    }
   }
 
   private LX lx;
@@ -26,7 +34,9 @@ public class IcosastarLX extends PApplet {
   private IcosaFFT icosaFft = new IcosaFFT();
   LXOutput fcOutput;
 
-  private FrameRateCalculator frc = new FrameRateCalculator(this, 3000, icosaFft.in.mix);
+  private FrameRateCalculator frc;
+
+  private float lastDrawMs = 0;
 
   public void settings() {
     size(1, 1, P2D);
@@ -36,6 +46,9 @@ public class IcosastarLX extends PApplet {
     PApplet.println("Starting 'headless' icosastar...");
 
     model = ModelSupplier.getModel(false);
+
+    frc = new FrameRateCalculator(this, 3000, isVerbose);
+    AudioDetector.init(icosaFft.in.mix);
 
     lx = new LX(model);
 
@@ -90,5 +103,8 @@ public class IcosastarLX extends PApplet {
 
     frc.draw();
     icosaFft.forward();
+
+    AudioDetector.LINE_IN.tick(this.millis() - lastDrawMs, isVerbose);
+    lastDrawMs = this.millis();
   }
 }

@@ -129,4 +129,9 @@ public class BikeModel extends AbstractIcosaLXModel {
   @Override
   public void applyPresets(PerlinNoisePattern perlinNoise) {
   }
+
+  @Override
+  public float getMaxBrightness() {
+    return 80; // battery pack cuts out above this
+  }
 }

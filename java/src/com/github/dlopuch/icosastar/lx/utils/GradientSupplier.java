@@ -25,6 +25,10 @@ public class GradientSupplier {
     gradientSelect = new DiscreteParameter("gradient", 0, gradients.height / GRADIENT_HEIGHT);
   }
 
+  public void setRandomGradient() {
+    gradientSelect.setValue((int)(Math.random() * gradientSelect.getMaxValue()));
+  }
+
   /**
    * Gets a color of the gradient
    * @param pos Position in the gradient, from 0.0 to 1.0

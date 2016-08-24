@@ -36,4 +36,8 @@ public abstract class AbstractIcosaLXModel extends LXModel {
 
 
   public abstract void applyPresets(PerlinNoisePattern perlinNoise);
+
+  public float getMaxBrightness() {
+    return 100;
+  }
 }

@@ -1,17 +1,13 @@
-package com.github.dlopuch.icosastar.lx.patterns;
+package com.github.dlopuch.icosastar.lx.patterns.perlin;
 
 
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BasicParameter;
-import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.parameter.LXParameterListener;
 import heronarts.lx.transform.LXVector;
 import processing.core.PApplet;
-import processing.core.PVector;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class LXPerlinNoiseExplorer {
@@ -63,8 +59,13 @@ public class LXPerlinNoiseExplorer {
   }
 
   public LXPerlinNoiseExplorer randomizeDirection() {
-    this.noiseTravel = new LXVector((float)Math.random(), (float)Math.random(), (float)Math.random())
-        .setMag(noiseSpeed.getValuef());
+    this.noiseTravel = new LXVector(
+        // Mostly travel in Z-axis so shapes are coming 'through' the cloud rather than 'across'
+        (float)(Math.random()*0.5 - 0.25f),
+        (float)(Math.random()*0.5 - 0.25f),
+        (float)(Math.random() - 0.5f)
+    )
+    .setMag(noiseSpeed.getValuef());
     return this;
   }
 

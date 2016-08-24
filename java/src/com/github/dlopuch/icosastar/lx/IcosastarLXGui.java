@@ -6,6 +6,7 @@ import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowFadecandyPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
 import com.github.dlopuch.icosastar.lx.patterns.RainbowSpreadPattern;
+import com.github.dlopuch.icosastar.lx.utils.AudioDetector;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import com.github.dlopuch.icosastar.widgets.FrameRateCalculator;
 import heronarts.lx.model.LXPoint;
@@ -22,8 +23,15 @@ import processing.core.PApplet;
  *
  */
 public class IcosastarLXGui extends PApplet {
+  private static boolean isVerbose = false;
   static public void main(String args[]) {
     PApplet.main(new String[] { "com.github.dlopuch.icosastar.lx.IcosastarLXGui" });
+
+    for (String s: args) {
+      if (s.equalsIgnoreCase("-v")) {
+        isVerbose = true;
+      }
+    }
   }
 
   private P3LX lx;
@@ -32,7 +40,9 @@ public class IcosastarLXGui extends PApplet {
   private IcosaFFT icosaFft = new IcosaFFT();
   private LXOutput fcOutput;
 
-  private FrameRateCalculator frc = new FrameRateCalculator(this, 3000, icosaFft.in.mix);
+  private FrameRateCalculator frc;
+
+  private float lastDrawMs = 0;
 
   public void settings() {
     size(Config.SIDE, Config.SIDE, P3D); //3D to force GPU blending
@@ -40,6 +50,9 @@ public class IcosastarLXGui extends PApplet {
 
   public void setup() {
     model = ModelSupplier.getModel(true);
+
+    frc = new FrameRateCalculator(this, 3000, isVerbose);
+    AudioDetector.init(icosaFft.in.mix);
 
     lx = new P3LX(this, model);
 
@@ -57,7 +70,7 @@ public class IcosastarLXGui extends PApplet {
         .addComponent(new UIPointCloud(lx, model).setPointSize(5))
     );
 
-    lx.ui.addLayer(new UIChannelControl(lx.ui, lx, 8, 4, 4));
+    lx.ui.addLayer(new UIChannelControl(lx.ui, lx, 16, 4, 4));
 
     Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 
@@ -81,5 +94,8 @@ public class IcosastarLXGui extends PApplet {
 
     frc.draw();
     icosaFft.forward();
+
+    AudioDetector.LINE_IN.tick(this.millis() - lastDrawMs, isVerbose);
+    lastDrawMs = this.millis();
   }
 }

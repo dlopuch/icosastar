@@ -54,6 +54,5 @@ public class IcosastarLXModel extends AbstractIcosaLXModel {
   public void applyPresets(PerlinNoisePattern perlinNoise) {
     perlinNoise.hueXForm.setValue(0.02);
     perlinNoise.hueSpeed.setValue(0.015);
-    perlinNoise.huePeriodMs.setValue(20000);
   }
 }
