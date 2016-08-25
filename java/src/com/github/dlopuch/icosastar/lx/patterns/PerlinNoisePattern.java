@@ -9,12 +9,9 @@ import com.github.dlopuch.icosastar.lx.patterns.perlin.RotatingHueColorizer;
 import com.github.dlopuch.icosastar.lx.utils.AudioDetector;
 import com.github.dlopuch.icosastar.lx.utils.GradientSupplier;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 import ddf.minim.analysis.BeatDetect;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
-import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.LXModulator;
 import heronarts.lx.modulator.SawLFO;
@@ -26,7 +23,6 @@ import heronarts.lx.pattern.LXPattern;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +56,8 @@ public class PerlinNoisePattern extends LXPattern {
 
   private double timeSinceLastRotate = 0;
 
-  public BasicParameter maxBrightness = new BasicParameter("maxBrightness", 70, 40, 100);
-  public BasicParameter baseBrightness = new BasicParameter("baseBrightness", 0.30, 0.10, 1.00);
+  public final BasicParameter maxBrightness = new BasicParameter("maxBrightness", 100, 0, 100);
+  public final BasicParameter baseBrightnessPct = new BasicParameter("baseBrightnessPct", 0.30, 0.10, 1.00);
 
   public PerlinNoisePattern(LX lx, PApplet p, IcosaFFT fft) {
     super(lx);
@@ -69,7 +65,7 @@ public class PerlinNoisePattern extends LXPattern {
     this.beat = fft.beat;
 
     addParameter(maxBrightness);
-    addParameter(baseBrightness);
+    addParameter(baseBrightnessPct);
 
 
     // Make Hue Noise
@@ -185,6 +181,8 @@ public class PerlinNoisePattern extends LXPattern {
     PerlinNoiseColorizer colorizer = allColorizers.get(colorizerSelect.getOption());
     //float maxBrightness = ((AbstractIcosaLXModel)model).getMaxBrightness();
     float maxBrightness = this.maxBrightness.getValuef();
+    float baseBrightness = maxBrightness * baseBrightnessPct.getValuef();
+    float boostBrightness = maxBrightness * (1.0f - baseBrightnessPct.getValuef());
 
     for (LXPoint p : this.model.points) {
       int color = colorizer.getColor(p);
@@ -192,12 +190,15 @@ public class PerlinNoisePattern extends LXPattern {
       float b = LXColor.b(color);
 
       if (AudioDetector.LINE_IN.isRunning()) {
-        b = (maxBrightness * .30f) * b/100f +
-            (brightnessBoostT > 0.05 ? brightnessBoostT * (maxBrightness * .70f) * brightnessBoostNoise.getNoise(p.index) : 0);
+        b = baseBrightness * b/100f +
+            (brightnessBoostT > 0.05 ?
+                brightnessBoostT * boostBrightness * brightnessBoostNoise.getNoise(p.index) :
+                0
+            );
       } else {
         // If audio not working, just do random brightness mapping
-        b = (maxBrightness * baseBrightness.getValuef()) * b / 100f +
-            (maxBrightness * (1f - baseBrightness.getValuef())) * brightnessBoostNoise.getNoise(p.index);
+        b = baseBrightness * b/100f +
+            boostBrightness * brightnessBoostNoise.getNoise(p.index);
       }
 
       color = LX.hsb(
@@ -219,16 +220,20 @@ public class PerlinNoisePattern extends LXPattern {
       doRotate = Math.random() * 1000000 < timeSinceLastRotate;
     }
     if (doRotate) {
-      colorizer = randomColorizer();
-      hueNoise.randomizeDirection();
-      colorizer.rotate();
-      timeSinceLastRotate = 0;
+      rotate();
     } else {
       timeSinceLastRotate += deltaMs;
     }
 
     hueNoise.step();
     //brightnessBoostNoise.step();
+  }
+
+  public void rotate() {
+    PerlinNoiseColorizer colorizer = randomColorizer();
+    hueNoise.randomizeDirection();
+    colorizer.rotate();
+    timeSinceLastRotate = 0;
   }
 
   private PerlinNoiseColorizer randomColorizer() {

@@ -8,6 +8,7 @@ import heronarts.lx.output.LXOutput;
  * Synchronizer class to supply same model for both headless and GUI apps
  */
 public class ModelSupplier {
+
   public static AbstractIcosaLXModel getModel(boolean hasGui, DeferredLxOutputProvider outputProvider) {
     //return IcosastarLXModelBuilder.makeModel(hasGui);
     //return CloudLXModelBuilder.makeModel(hasGui);

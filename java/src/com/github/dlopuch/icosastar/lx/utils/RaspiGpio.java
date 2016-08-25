@@ -6,16 +6,23 @@ import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListener;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import heronarts.lx.output.LXOutput;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Raspi GPIO controller abstraction
  */
 public class RaspiGpio {
   private static final int DEBOUNCE_MS = 300;
+
+  public interface DipSwitchListener {
+    void onDipSwitchChange(float newValueF);
+  }
 
   public static GpioController gpio = null;
 
@@ -27,6 +34,8 @@ public class RaspiGpio {
   public static GpioPinDigitalInput dip1;
   public static GpioPinDigitalInput dip2;
   public static GpioPinDigitalInput dip3;
+
+  private static final List<DipSwitchListener> dipSwitchListeners = new LinkedList<>();
 
   public static void init(DeferredLxOutputProvider outputProvider) { // only raspi models init
     gpio = GpioFactory.getInstance();
@@ -85,6 +94,18 @@ public class RaspiGpio {
         PinPullResistance.PULL_DOWN
     );
     dip3.setDebounce(DEBOUNCE_MS);
+
+
+    GpioPinListener onDipSwitchChanger = new GpioPinListenerDigital() {
+      @Override
+      public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+        RaspiGpio.onDipSwitchChange();
+      }
+    };
+    dip0.addListener(onDipSwitchChanger);
+    dip1.addListener(onDipSwitchChanger);
+    dip2.addListener(onDipSwitchChanger);
+    dip3.addListener(onDipSwitchChanger);
 
 
     // Reset is called reset because it shuts down the pi
@@ -164,12 +185,35 @@ public class RaspiGpio {
     return toggle.getState().isHigh();
   }
 
+  /**
+   * Gets 4-bit DIP switch value from 0-15
+   * @return 0-15
+   */
   public static int getDipValue() {
     return 0b1111
         & (dip0.isHigh() ? 0b1111 : 0b1110)
         & (dip1.isHigh() ? 0b1111 : 0b1101)
         & (dip2.isHigh() ? 0b1111 : 0b1011)
         & (dip3.isHigh() ? 0b1111 : 0b0111);
+  }
+
+  /**
+   * Returns normalized dip value from 0-1
+   * @return float between 0-1
+   */
+  public static float getDipValuef() {
+    return (float)getDipValue()/15f;
+  }
+
+  public static void addDipSwitchListener(DipSwitchListener listener) {
+    dipSwitchListeners.add(listener);
+  }
+
+  private static void onDipSwitchChange() {
+    float newValue = getDipValuef();
+    for (DipSwitchListener listener : dipSwitchListeners) {
+      listener.onDipSwitchChange(newValue);
+    }
   }
 
   /**

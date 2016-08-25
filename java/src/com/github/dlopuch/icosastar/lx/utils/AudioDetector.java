@@ -9,6 +9,7 @@ public class AudioDetector {
   private static final double MS_ACCUMULATOR_ROLLOVER = 3000; // check for 3 sec
 
   public static AudioDetector LINE_IN;
+  public static boolean mute = false;
 
   private AudioBuffer audioBuffer;
   private float maxAudioLevel = 0;
@@ -31,7 +32,9 @@ public class AudioDetector {
 
     if (msAccumulator > MS_ACCUMULATOR_ROLLOVER) {
       if (verbose) {
-        System.out.println(isRunning() ? "max audio level: " + getMaxLevel() : "No Audio  :(");
+        System.out.println(isRunning() ?
+            "max audio level: " + getMaxLevel() :
+            "No Audio  :(" + (mute ? "  but in-java muted :?" : ""));
       }
       msAccumulator = 0;
       maxAudioLevel = 0;
@@ -51,6 +54,6 @@ public class AudioDetector {
   }
 
   public boolean isRunning() {
-    return getMaxLevel() > 0;
+    return !mute && getMaxLevel() > 0;
   }
 }
