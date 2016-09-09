@@ -141,60 +141,7 @@ public class BikeModel extends AbstractIcosaLXModel {
 
   @Override
   public void applyPresets(PerlinNoisePattern perlinNoise) {
-    if (RaspiGpio.isActive()) {
-
-      // Brightnesses:
-      // ----------------
-      RaspiGpio.DipSwitchListener defaultDipSwitchListener = (float dipValuef) -> {
-        perlinNoise.maxBrightness.setValue(dipValuef == 0 ? 10 : 100);
-        if (!AudioDetector.LINE_IN.isRunning()) {
-          // baseBrightness at 85 and above seems to trip the battery breaker.
-          // Keep it at .75 -- no real perceptable increase in brightness.
-          perlinNoise.baseBrightnessPct.setValue(dipValuef * 0.75f);
-        } else {
-          // Push it if audio is working... yolo
-          perlinNoise.baseBrightnessPct.setValue(dipValuef * 0.90f);
-        }
-
-        System.out.println("PerlinNoisePattern maxBrightness changed to:" + perlinNoise.maxBrightness.getValue());
-        System.out.println("PerlinNoisePattern baseBrightnessPct changed to:" + perlinNoise.baseBrightnessPct.getValue());
-      };
-      perlinNoise.maxBrightness.setValue(100);
-      RaspiGpio.addDipSwitchListener(defaultDipSwitchListener);
-
-      // Pattern rotations:
-      // ----------------
-      RaspiGpio.blackMoment.addListener(new GpioPinListenerDigital() {
-        @Override
-        public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-          if (event.getState().isHigh()) {
-            perlinNoise.rotate();
-          }
-        }
-      });
-      RaspiGpio.yellowMoment.addListener(new GpioPinListenerDigital() {
-        @Override
-        public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-          if (event.getState().isHigh()) {
-            perlinNoise.rotateColorizer.setValue( !perlinNoise.rotateColorizer.getValueb() );
-          }
-        }
-      });
-      RaspiGpio.toggle.addListener(new GpioPinListenerDigital() {
-        @Override
-        public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-          if (event.getState().isHigh()) {
-            System.out.println("Perlin sleep toggle activated. In-java muting");
-            AudioDetector.mute = true;
-            perlinNoise.maxBrightness.setValue(38);
-            perlinNoise.baseBrightnessPct.setValue(0.7);
-          } else {
-            AudioDetector.mute = false;
-            defaultDipSwitchListener.onDipSwitchChange(RaspiGpio.getDipValuef());
-          }
-        }
-      });
-    }
+    RaspiPerlinNoiseDefaults.applyPresetsIfRaspiGpio(perlinNoise);
   }
 
   @Override

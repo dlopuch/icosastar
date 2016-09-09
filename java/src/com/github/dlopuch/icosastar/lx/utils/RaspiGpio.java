@@ -18,7 +18,7 @@ import java.util.List;
  * Raspi GPIO controller abstraction
  */
 public class RaspiGpio {
-  private static final int DEBOUNCE_MS = 300;
+  private static final int DEBOUNCE_MS = 200;
 
   public interface DipSwitchListener {
     void onDipSwitchChange(float newValueF);

@@ -10,8 +10,8 @@ import heronarts.lx.output.LXOutput;
 public class ModelSupplier {
 
   public static AbstractIcosaLXModel getModel(boolean hasGui, DeferredLxOutputProvider outputProvider) {
-    //return IcosastarLXModelBuilder.makeModel(hasGui);
+    return IcosastarLXModel.makeModel(hasGui, outputProvider);
     //return CloudLXModelBuilder.makeModel(hasGui);
-    return BikeModel.makeModel(hasGui, outputProvider);
+    //return BikeModel.makeModel(hasGui, outputProvider);
   }
 }
