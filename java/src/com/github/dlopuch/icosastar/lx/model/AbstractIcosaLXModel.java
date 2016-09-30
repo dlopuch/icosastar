@@ -2,6 +2,7 @@ package com.github.dlopuch.icosastar.lx.model;
 
 
 import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
+import com.github.dlopuch.icosastar.lx.patterns.PerlinPetalsPattern;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXFixture;
@@ -36,6 +37,10 @@ public abstract class AbstractIcosaLXModel extends LXModel {
 
 
   public abstract void applyPresets(PerlinNoisePattern perlinNoise);
+
+  public void applyPresets(PerlinPetalsPattern pattern) {
+    throw new UnsupportedOperationException("This model does not implement PerlinPetalsPattern");
+  }
 
   public float getMaxBrightness() {
     return 100;

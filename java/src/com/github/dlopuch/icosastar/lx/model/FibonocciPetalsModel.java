@@ -55,6 +55,9 @@ public class FibonocciPetalsModel extends AbstractIcosaLXModel {
     private final Set<LXPoint> cwPoints;
     private final Set<LXPoint> ccwPoints;
 
+    /** Maximum magnitude of a point in this spiral*/
+    public final float maxR;
+
     private PetalSpiral(Petal[] petals) {
       this.petals = Arrays.asList(petals);
 
@@ -71,6 +74,14 @@ public class FibonocciPetalsModel extends AbstractIcosaLXModel {
 
       allPoints = new HashSet<>(cwPoints);
       allPoints.addAll(ccwPoints);
+
+      float maxR = 0;
+      for (LXPoint p : allPoints) {
+        if (p.r > maxR) {
+          maxR = p.r;
+        }
+      }
+      this.maxR = maxR;
     }
 
     @Override
@@ -328,10 +339,11 @@ public class FibonocciPetalsModel extends AbstractIcosaLXModel {
 
   @Override
   public void addPatternsAndGo(LX lx, PApplet p, IcosaFFT icosaFft) {
-    LXPattern perlinNoise = new PerlinNoisePattern(lx, p, icosaFft);
+    LXPattern activePattern = new PerlinPetalsPattern(lx, p, icosaFft);
 
     List<LXPattern> patterns = new ArrayList<>(Arrays.asList(
-        perlinNoise,
+        new PerlinNoisePattern(lx, p, icosaFft),
+        activePattern,
         new RainbowPattern(lx),
         new RainbowSpreadPattern(lx)
     ));
@@ -342,11 +354,17 @@ public class FibonocciPetalsModel extends AbstractIcosaLXModel {
     }
 
     lx.setPatterns(patterns.toArray(new LXPattern[patterns.size()]));
-    lx.goPattern(perlinNoise);
+    lx.goPattern(activePattern);
   }
 
   @Override
   public void applyPresets(PerlinNoisePattern perlinNoise) {
     // no-op
   }
+
+  @Override
+  public void applyPresets(PerlinPetalsPattern perlinNoise) {
+    // no-op
+  }
+
 }
