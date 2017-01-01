@@ -1,9 +1,6 @@
 package com.github.dlopuch.icosastar.lx.model;
 
-import com.github.dlopuch.icosastar.lx.patterns.PerlinNoisePattern;
-import com.github.dlopuch.icosastar.lx.patterns.RainbowFadecandyPattern;
-import com.github.dlopuch.icosastar.lx.patterns.RainbowPattern;
-import com.github.dlopuch.icosastar.lx.patterns.RainbowSpreadPattern;
+import com.github.dlopuch.icosastar.lx.patterns.*;
 import com.github.dlopuch.icosastar.lx.utils.DeferredLxOutputProvider;
 import com.github.dlopuch.icosastar.lx.utils.RaspiGpio;
 import com.github.dlopuch.icosastar.signal.IcosaFFT;
@@ -141,12 +138,15 @@ public class IcosastarLXModel extends AbstractIcosaLXModel {
   @Override
   public void addPatternsAndGo(LX lx, PApplet p, IcosaFFT icosaFft) {
     LXPattern perlinNoise = new PerlinNoisePattern(lx, p, icosaFft);
+    LXPattern whiteSparkleWipe = new WhiteSparkleWipe(lx, p);
     lx.setPatterns(new LXPattern[] {
         perlinNoise,
+        whiteSparkleWipe,
         new RainbowPattern(lx),
         new RainbowSpreadPattern(lx),
     });
     lx.goPattern(perlinNoise);
+    //lx.goPattern(whiteSparkleWipe);
   }
 
   public void applyPresets(PerlinNoisePattern perlinNoise) {

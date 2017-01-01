@@ -12,6 +12,9 @@ import java.util.function.Function;
  * Applies perlin noise pattern listeners when raspi GPIO is present
  */
 public class RaspiPerlinNoiseDefaults {
+  static int wipeCount = 0;
+  static double timeSinceLastWipeCountReset = System.currentTimeMillis();
+
   public static void applyPresetsIfRaspiGpio(PerlinNoisePattern perlinNoise) {
     if (!RaspiGpio.isActive()) {
       return;
@@ -98,7 +101,10 @@ public class RaspiPerlinNoiseDefaults {
     // Yellow Moment:
     // -------------
     // When sleeping, toggles between bright sleep and dim sleep
-    // When not sleeping, toggles between auto-rotate and stay-on-same-pattern
+    // ~~When not sleeping, toggles between auto-rotate and stay-on-same-pattern~~
+    // TODO: Not sleeping currently triggers white wipes and sparkles.
+    // Ten wipes activates the sparkle mode (10! 9! 8! ...).  A couple more turns sparkles off.  Count reset 30 sec
+    // after last wipe.
     RaspiGpio.yellowMoment.addListener(new GpioPinListenerDigital() {
       @Override
       public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
@@ -107,7 +113,25 @@ public class RaspiPerlinNoiseDefaults {
             sleep.isBright = !sleep.isBright;
             setSleepBrightness.apply(null);
           } else {
-            perlinNoise.rotateColorizer.setValue(!perlinNoise.rotateColorizer.getValueb());
+            //perlinNoise.rotateColorizer.setValue(!perlinNoise.rotateColorizer.getValueb());
+
+            perlinNoise.startRandomWipe();
+
+            if (System.currentTimeMillis() - timeSinceLastWipeCountReset > 30000) {
+              wipeCount = 1;
+              timeSinceLastWipeCountReset = System.currentTimeMillis();
+            } else {
+              wipeCount++;
+            }
+            if (wipeCount >= 15) {
+              perlinNoise.triggerSparklers(false);
+            } else if (wipeCount > 10) {
+              perlinNoise.triggerSparklers(true);
+            } else {
+              perlinNoise.triggerSparklers(false);
+            }
+
+
           }
         }
       }

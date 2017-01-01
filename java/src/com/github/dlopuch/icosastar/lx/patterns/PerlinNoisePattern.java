@@ -2,6 +2,8 @@ package com.github.dlopuch.icosastar.lx.patterns;
 
 
 import com.github.dlopuch.icosastar.lx.model.AbstractIcosaLXModel;
+import com.github.dlopuch.icosastar.lx.patterns.effects.Sparklers;
+import com.github.dlopuch.icosastar.lx.patterns.effects.WhiteWipe;
 import com.github.dlopuch.icosastar.lx.patterns.perlin.GradientColorizer;
 import com.github.dlopuch.icosastar.lx.patterns.perlin.LXPerlinNoiseExplorer;
 import com.github.dlopuch.icosastar.lx.patterns.perlin.PerlinNoiseColorizer;
@@ -58,6 +60,15 @@ public class PerlinNoisePattern extends LXPattern {
 
   public final BasicParameter maxBrightness = new BasicParameter("maxBrightness", 100, 0, 100);
   public final BasicParameter baseBrightnessPct = new BasicParameter("baseBrightnessPct", 0.30, 0.10, 1.00);
+
+
+  // WhiteWipes overlay
+  private BooleanParameter triggerWipe = new BooleanParameter("doWipe", false);
+  private WhiteWipe wiper;
+  private WhiteWipe[] allWipes;
+
+  private final Sparklers sparklers;
+  private BooleanParameter triggerSparklers = new BooleanParameter("sparkle");
 
   public PerlinNoisePattern(LX lx, PApplet p, IcosaFFT fft) {
     super(lx);
@@ -159,10 +170,47 @@ public class PerlinNoisePattern extends LXPattern {
 //    }
 
 
+    allWipes = new WhiteWipe[] {
+        new WhiteWipe(lx, this, m -> m.yMin, m -> m.yMax, pt -> pt.y),
+        new WhiteWipe(lx, this, m -> m.yMax, m -> m.yMin, pt -> pt.y),
+
+        new WhiteWipe(lx, this, m -> m.xMin, m -> m.xMax, pt -> pt.x),
+        new WhiteWipe(lx, this, m -> m.xMax, m -> m.xMin, pt -> pt.x),
+
+        new WhiteWipe(lx, this, m -> m.zMin, m -> m.zMax, pt -> pt.z),
+        new WhiteWipe(lx, this, m -> m.zMax, m -> m.zMin, pt -> pt.z)
+    };
+    addParameter(triggerWipe);
+    triggerWipe.addListener(param -> {
+      //if (param.getValue() > 0) {
+      this.startRandomWipe();
+      System.out.println("STARTING WAVE: " + param.getValue());
+    });
+
+    sparklers = new Sparklers(this);
+    addParameter(triggerSparklers);
+    triggerSparklers.addListener(param -> {
+      triggerSparklers(param.getValue() > 0);
+    });
+
+
     // initialize according to mapping
     ((AbstractIcosaLXModel) this.model).applyPresets(this);
     brightnessBoostNoise.noiseSpeed.setValue(2.0 * this.hueSpeed.getValue());
     brightnessBoostNoise.noiseXForm.setValue(0.5 * this.hueXForm.getValue());
+  }
+
+  public void startRandomWipe() {
+    wiper = allWipes[ (int) (Math.random() * allWipes.length) ];
+    wiper.start();
+  }
+
+  public void triggerSparklers(boolean on) {
+    if (on) {
+      sparklers.resetSparklers();
+    } else {
+      sparklers.stopSparklers();
+    }
   }
 
   public void run(double deltaMs) {
@@ -227,6 +275,13 @@ public class PerlinNoisePattern extends LXPattern {
 
     hueNoise.step();
     //brightnessBoostNoise.step();
+
+
+    // Apply overlays:
+    for (WhiteWipe w : allWipes) {
+      w.run(deltaMs);
+    }
+    sparklers.run(deltaMs);
   }
 
   public void rotate() {
