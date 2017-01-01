@@ -30,7 +30,10 @@ import java.util.stream.Collectors;
  */
 public class PerlinPetalsPattern extends LXPattern {
   private static int PULSE_DECAY_MS_DEFAULT = 500;
-  private static double MIN_TIME_BETWEEN_BEATS_MS = 150;
+  private static int MIN_TIME_BETWEEN_BEATS_MS = 150;
+
+  public final DiscreteParameter beatLimitMs = new DiscreteParameter("bt lim", MIN_TIME_BETWEEN_BEATS_MS, -1, 500);
+
 
   private double timeSinceLastBeat = 0;
 
@@ -49,7 +52,7 @@ public class PerlinPetalsPattern extends LXPattern {
   public final BasicParameter fadedBrightness = new BasicParameter("min brt", 0.4, 0., 1.);
 
   /** Brightness of pixels that are being flashed */
-  //public final BasicParameter flashBrightness = new BasicParameter("max brt", 0.3, 0., 1.);
+  public final BasicParameter flashBrightness = new BasicParameter("max brt", 1., 0., 1.);
 
 
   public final DiscreteParameter pulseDecayMs = new DiscreteParameter("puls decay", PULSE_DECAY_MS_DEFAULT, 100, 1500);
@@ -144,7 +147,7 @@ public class PerlinPetalsPattern extends LXPattern {
     RotatingHueColorizer rotatingHueColorizer = new RotatingHueColorizer(hueNoise) {
       @Override
       public RotatingHueColorizer activate() {
-        hueNoise.noiseSpeed.setValue(0.027);
+        hueNoise.noiseSpeed.setValue(0.020);
         return this;
       }
     };
@@ -155,7 +158,7 @@ public class PerlinPetalsPattern extends LXPattern {
     GradientColorizer gradientColorizer = new GradientColorizer(hueNoise, new GradientSupplier(p)) {
       @Override
       public GradientColorizer activate() {
-        hueNoise.noiseSpeed.setValue(0.027);
+        hueNoise.noiseSpeed.setValue(0.020);
         return this;
       }
     };
@@ -166,7 +169,7 @@ public class PerlinPetalsPattern extends LXPattern {
     GradientColorizer patternColorizer = new GradientColorizer(hueNoise, new GradientSupplier(p, true)) {
       @Override
       public GradientColorizer activate() {
-        hueNoise.noiseSpeed.setValue(0.006);
+        hueNoise.noiseSpeed.setValue(0.015);
         return this;
       }
     };
@@ -198,7 +201,9 @@ public class PerlinPetalsPattern extends LXPattern {
     origValueField = new float[colors.length];
 
     addParameter(fadedBrightness);
-    //addParameter(flashBrightness);
+    addParameter(flashBrightness);
+
+    addParameter(beatLimitMs);
 
     addParameter(pulseDecayMs);
     addParameter(useWhiteFlash);
@@ -220,7 +225,7 @@ public class PerlinPetalsPattern extends LXPattern {
 
     FibonocciPetalsModel model = (FibonocciPetalsModel) this.model;
 
-    if (beat.isKick() && timeSinceLastBeat > MIN_TIME_BETWEEN_BEATS_MS) {
+    if (beat.isKick() && (beatLimitMs.getValuei() <= 0 || timeSinceLastBeat > MIN_TIME_BETWEEN_BEATS_MS)) {
 
       // Try to find an unused spiral
       FibonocciPetalsModel.PetalSpiral spiral;
@@ -250,6 +255,16 @@ public class PerlinPetalsPattern extends LXPattern {
     for (LXPoint p : model.points) {
       // Start with colorizer's color
       int color = colorizer.getColor(p);
+
+      // Reduce base brightness if specified
+      if (flashBrightness.getValue() < 1) {
+        color = LXColor.hsb(
+            LXColor.h(color),
+            LXColor.s(color),
+            LXColor.b(color) * flashBrightness.getValue()
+        );
+      }
+
       origColorField[p.index] = color;
       origValueField[p.index] = LXColor.b(color);
 
@@ -346,7 +361,7 @@ public class PerlinPetalsPattern extends LXPattern {
       colorizerSelect.setValue(0);
 
       // gradient:
-    } else if (rand < 0.7) {
+    } else if (rand < 0.6) {
       colorizerSelect.setValue(1);
 
       // pattern
